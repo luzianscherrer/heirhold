@@ -26,6 +26,8 @@ This is my contribution to the [ETHOnline 2024 Hackathon](https://ethglobal.com/
 
 ## Deployment
 
+The frontend can be accessed on GitHub Pages: https://luzianscherrer.github.io/heirhold/
+
 The protoype is deployed on [Rootstock Testnet](https://rootstock.io) and [Ethereum Sepolia](https://ethereum.org) to cover both bitcoin and ether holdings.
 
 | Network           | Address | Description               |
