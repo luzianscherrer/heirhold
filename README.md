@@ -2,7 +2,7 @@
 
 ## Introduction
 
-It is a well-known fact that a considerable amount of cryptocurrency holdings are inaccessible and permanently locked due to lost private keys. According to an estimate by Chainalysis, about [one-fifth](https://www.chainalysis.com/blog/bitcoin-market-data-exchanges-trading/) of all Bitcoin is affected.
+It is a well-known fact that a considerable amount of cryptocurrency holdings are inaccessible and permanently locked due to lost private keys. According to an estimate by Chainalysis, about [one-fifth](https://www.chainalysis.com/blog/bitcoin-market-data-exchanges-trading/) of all bitcoin is affected.
 
 Heirhold is a smart wallet solution that addresses this problem by implementing a secure, time-locked recovery mechanism.
 
