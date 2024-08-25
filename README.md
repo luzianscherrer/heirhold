@@ -2,7 +2,7 @@
 
 ## Introduction
 
-It is estimated that around [one-fifth](https://www.nytimes.com/2021/01/13/business/tens-of-billions-worth-of-bitcoin-have-been-locked-by-people-who-forgot-their-key.html) of all cryptocurrency holdings are inaccessible and permanently locked forever due to lost private keys.
+It is a well-known fact that a considerable amount of cryptocurrency holdings are inaccessible and permanently locked due to lost private keys. According to an estimate by Chainalysis, about [one-fifth](https://www.chainalysis.com/blog/bitcoin-market-data-exchanges-trading/) of all Bitcoin is affected.
 
 Heirhold is a smart wallet solution that addresses this problem by implementing a secure, time-locked recovery mechanism.
 
@@ -15,3 +15,22 @@ All steps of the process are enforced by a smart contract, ensuring secure and v
 ## ETHOnline Hackathon
 
 This is my contribution to the [ETHOnline 2024 Hackathon](https://ethglobal.com/events/ethonline2024) taking place from August 23rd to September 13th, 2024.
+
+## Used Technology
+
+- [Rootstock](https://rootstock.io)
+- [Ethereum](https://ethereum.org)
+- [ethers.js](https://github.com/ethers-io/ethers.js)
+- [React](https://react.dev)
+- [React Bootstrap](https://react-bootstrap.netlify.app)
+
+## Deployment
+
+The protoype is deployed on [Rootstock Testnet](https://rootstock.io) and [Ethereum Sepolia](https://ethereum.org) to cover both bitcoin and ether holdings.
+
+| Network           | Address | Description               |
+| ----------------- | ------- | ------------------------- |
+| Rootstock Testnet | 0x...   | Heirhold factory contract |
+| Rootstock Testnet | 0x...   | Heirhold example wallet   |
+| Ethereum Sepolia  | 0x...   | Heirhold factory contract |
+| Ethereum Sepolia  | 0x...   | Heirhold example wallet   |
