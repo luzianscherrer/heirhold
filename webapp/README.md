@@ -1,10 +1,10 @@
-# Deployment on GitHub Pages
+### Deployment on GitHub Pages
 
 ```
 npm run deploy
 ```
 
-# Local Development
+### Local Development
 
 ```
 npm start
