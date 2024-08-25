@@ -21,6 +21,7 @@ This is my contribution to the [ETHOnline 2024 Hackathon](https://ethglobal.com/
 - [Rootstock](https://rootstock.io)
 - [Ethereum](https://ethereum.org)
 - [Solidity](https://soliditylang.org)
+- [Hardhat](https://hardhat.org/)
 - [ethers.js](https://github.com/ethers-io/ethers.js)
 - [React](https://react.dev)
 - [React Bootstrap](https://react-bootstrap.netlify.app)
