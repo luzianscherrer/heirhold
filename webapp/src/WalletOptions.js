@@ -7,8 +7,6 @@ import "bootstrap/dist/css/bootstrap.min.css";
 export function WalletOptions() {
   const { connectors, connect } = useConnect();
 
-  console.log(connectors);
-
   return (
     <Container fluid>
       <Row>
