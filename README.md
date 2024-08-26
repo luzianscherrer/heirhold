@@ -1,5 +1,9 @@
 # Heirhold
 
+## TL;DR
+
+Just visit the [online demo](https://luzianscherrer.github.io/heirhold/).
+
 ## Introduction
 
 It is a well-known fact that a considerable amount of cryptocurrency holdings are inaccessible and permanently locked due to lost private keys. According to an estimate by Chainalysis, about [one-fifth](https://www.chainalysis.com/blog/bitcoin-market-data-exchanges-trading/) of all bitcoin is affected.
@@ -22,13 +26,14 @@ This is my contribution to the [ETHOnline 2024 Hackathon](https://ethglobal.com/
 - [Ethereum](https://ethereum.org)
 - [Solidity](https://soliditylang.org)
 - [Hardhat](https://hardhat.org/)
+- [Wagmi](https://wagmi.sh)
 - [ethers.js](https://github.com/ethers-io/ethers.js)
 - [React](https://react.dev)
 - [React Bootstrap](https://react-bootstrap.netlify.app)
 
 ## Deployment
 
-The frontend can be accessed on GitHub Pages: <a href="https://luzianscherrer.github.io/heirhold/" target="_blank">https://luzianscherrer.github.io/heirhold/</a>
+The frontend can be accessed on GitHub Pages: https://luzianscherrer.github.io/heirhold/
 
 The protoype is deployed on [Rootstock Testnet](https://rootstock.io) and [Ethereum Sepolia](https://ethereum.org) to cover both bitcoin and ether holdings.
 
