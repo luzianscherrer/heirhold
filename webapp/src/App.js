@@ -24,7 +24,7 @@ function App() {
             <ConnectWallet />
           </Row>
           <Row className="p-2">
-            <div className="header">
+            <div className="header d-flex align-items-center">
               <img src={Logo} alt="Logo" />
               <h1>Heirhold</h1>
             </div>

@@ -16,7 +16,7 @@ export function Account() {
         <Col></Col>
         <Col
           xs="auto"
-          className="d-flex justify-content-center align-items-center"
+          className="justify-content-center align-items-center d-none d-md-flex"
         >
           {address && (
             <div>
@@ -24,6 +24,12 @@ export function Account() {
               {chain.name}
             </div>
           )}
+        </Col>
+        <Col
+          xs="auto"
+          className="d-flex justify-content-center align-items-center d-md-none"
+        >
+          {address && <div>{truncateAddress(address)}</div>}
         </Col>
         {/* <div>{chain.nativeCurrency.symbol}</div> */}
         <Col
