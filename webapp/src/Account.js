@@ -21,7 +21,7 @@ export function Account() {
           {address && (
             <div>
               Connected to <strong>{truncateAddress(address)}</strong> on{" "}
-              {chain.name}
+              {chain ? chain.name : "unknown"}
             </div>
           )}
         </Col>

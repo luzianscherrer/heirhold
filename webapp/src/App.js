@@ -5,6 +5,7 @@ import { WagmiProvider, useAccount } from "wagmi";
 import { config } from "./config";
 import { WalletOptions } from "./WalletOptions";
 import { Account } from "./Account";
+import { Notifications } from "./Notifications";
 import Logo from "./logo.svg";
 
 const queryClient = new QueryClient();
@@ -19,6 +20,7 @@ function App() {
   return (
     <WagmiProvider config={config}>
       <QueryClientProvider client={queryClient}>
+        <Notifications />
         <Container fluid>
           <Row className="p-2">
             <ConnectWallet />
