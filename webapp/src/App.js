@@ -7,6 +7,7 @@ import { WalletOptions } from "./WalletOptions";
 import { Account } from "./Account";
 import { Notifications } from "./Notifications";
 import { CreateHeirholdWallet } from "./CreateHeirholdWallet";
+import { HeirholdWallets } from "./HeirholdWallets";
 import Logo from "./logo.svg";
 
 const queryClient = new QueryClient();
@@ -21,13 +22,22 @@ function MainContent() {
   const { isConnected } = useAccount();
   if (isConnected)
     return (
-      <Row className="p-2">
-        <Col></Col>
-        <Col lg={8}>
-          <CreateHeirholdWallet />
-        </Col>
-        <Col></Col>
-      </Row>
+      <>
+        <Row className="p-2">
+          <Col></Col>
+          <Col lg={8}>
+            <CreateHeirholdWallet />
+          </Col>
+          <Col></Col>
+        </Row>
+        <Row className="p-2">
+          <Col></Col>
+          <Col lg={8}>
+            <HeirholdWallets />
+          </Col>
+          <Col></Col>
+        </Row>
+      </>
     );
 }
 

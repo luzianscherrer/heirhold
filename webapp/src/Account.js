@@ -1,11 +1,7 @@
 import { Container, Row, Col } from "react-bootstrap";
 import { useAccount, useDisconnect } from "wagmi";
 import { Button } from "react-bootstrap";
-
-const truncateAddress = (address) => {
-  if (address.length <= 12) return address;
-  return address.substr(0, 5) + "..." + address.substr(address.length - 4);
-};
+import { truncateAddress } from "./utils";
 
 export function Account() {
   const { address, chain } = useAccount();

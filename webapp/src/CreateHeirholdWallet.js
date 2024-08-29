@@ -144,7 +144,7 @@ export const CreateHeirholdWallet = () => {
               </InputGroup>
             </Form.Group>
             <Form.Group controlId="formClaimDepositFeeAmount" className="pt-4">
-              <Form.Label>Claim deposit fee amount</Form.Label>
+              <Form.Label>Claim deposit fee</Form.Label>
               <InputGroup>
                 <Form.Control
                   required
