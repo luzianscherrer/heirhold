@@ -90,7 +90,7 @@ export const HeirholdWallets = () => {
         <Card.Footer className="text-muted">
           <Container fluid className="p-0">
             <Row>
-              <Col className="d-flex align-items-center">
+              <Col className="d-flex align-items-center" xs="auto">
                 Balance: <strong className="ms-2">12.308 ETH</strong>
               </Col>
               <Col className="text-end">
