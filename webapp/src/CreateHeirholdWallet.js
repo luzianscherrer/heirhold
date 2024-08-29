@@ -1,14 +1,19 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { Modal, Form, Button, InputGroup, Dropdown } from "react-bootstrap";
-import { useAccount } from "wagmi";
+import { useAccount, useWriteContract } from "wagmi";
+import { heirholdFactoryConfig } from "./heirholdFactoryConfig";
+import { parseEther } from "viem";
 
 export const CreateHeirholdWallet = () => {
+  /* global BigInt */
+
   const defaultClaimGracePeriod = "365";
   const defaultClaimGracePeriodUnit = "Days";
   const defaultClaimDepositFeeAmount = "0.1";
   const defaultDepositAmount = "0";
 
   const { chain } = useAccount();
+  const { data: hash, isPending, writeContract } = useWriteContract();
   const [show, setShow] = useState(false);
   const [claimGracePeriod, setClaimGracePeriod] = useState(
     defaultClaimGracePeriod
@@ -52,29 +57,31 @@ export const CreateHeirholdWallet = () => {
   };
   const handleSave = async () => {
     console.log("handle save");
-    // const provider = new ethers.BrowserProvider(window.ethereum);
-    // const singer = await provider.getSigner();
-    // const contract = new ethers.Contract(
-    //   HEIRHOLD_FACTORY_CONTRACT_ADDRESS,
-    //   heirholdFactoryContract.abi,
-    //   singer
-    // );
-    // try {
-    //   const options = { value: ethers.parseEther(depositAmount) };
-    //   const tx = await contract.createHeirholdWallet(
-    //     parseInt(claimGracePeriod),
-    //     ethers.parseUnits(claimDepositFeeAmount, "ether"),
-    //     [],
-    //     options
-    //   );
-    //   console.log("transaction", tx);
-    //   const receipt = await tx.wait();
-    //   console.log("receipt", receipt);
-    // } catch (exception) {
-    //   console.log("creating transaction failed", exception);
-    // }
-    handleClose();
+
+    const unitMultipliers = {
+      Years: 60 * 60 * 24 * 365,
+      Days: 60 * 60 * 24,
+      Minutes: 60,
+    };
+    const claimGracePeriodSeconds =
+      claimGracePeriod * (unitMultipliers[defaultClaimGracePeriodUnit] || 1);
+
+    writeContract({
+      address: heirholdFactoryConfig.address,
+      abi: heirholdFactoryConfig.abi,
+      functionName: "createHeirholdWallet",
+      args: [
+        BigInt(claimGracePeriodSeconds),
+        parseEther(claimDepositFeeAmount),
+        [],
+      ],
+      value: parseEther(depositAmount),
+    });
   };
+
+  useEffect(() => {
+    handleClose();
+  }, [hash]);
 
   return (
     <>
@@ -88,7 +95,7 @@ export const CreateHeirholdWallet = () => {
 
       <Modal show={show} onHide={handleClose}>
         <Form noValidate validated={validated} onSubmit={handleSubmit}>
-          <Modal.Header closeButton>
+          <Modal.Header closeButton={!isPending}>
             <Modal.Title>Create a new Heirhold wallet</Modal.Title>
           </Modal.Header>
           <Modal.Body>
@@ -168,11 +175,15 @@ export const CreateHeirholdWallet = () => {
             </Form.Group>
           </Modal.Body>
           <Modal.Footer>
-            <Button variant="secondary" onClick={handleClose}>
+            <Button
+              variant="secondary"
+              onClick={handleClose}
+              disabled={isPending}
+            >
               Cancel
             </Button>
-            <Button variant="primary" type="submit">
-              Create
+            <Button variant="primary" type="submit" disabled={isPending}>
+              {isPending ? "Confirming..." : "Create"}
             </Button>
           </Modal.Footer>
         </Form>

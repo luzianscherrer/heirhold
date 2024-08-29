@@ -4,9 +4,12 @@ import { watchContractEvent } from "@wagmi/core";
 import { heirholdFactoryConfig } from "./heirholdFactoryConfig";
 import { config } from "./config";
 import { getBalance } from "@wagmi/core";
+import { useAccount, useBlockNumber } from "wagmi";
 
 export function Notifications() {
   const [notifications, setNotifications] = useState([]);
+  const { address } = useAccount();
+
   const addNotification = (title, body) => {
     setNotifications((prevNotifications) => [
       ...prevNotifications,
@@ -19,34 +22,35 @@ export function Notifications() {
   //     );
   //   };
 
-  useEffect(() => {
-    console.log("watch");
+  //   useEffect(() => {
+  //     console.log("watch");
 
-    const testActions = async () => {
-      const balance = await getBalance(config, {
-        address: "0xe712336C2577d8B4F5dbD1dB19626503e9079672",
-      });
-      console.log(balance);
-    };
-    testActions();
+  //     // const testActions = async () => {
+  //     //   const balance = await getBalance(config, {
+  //     //     address: "0xe712336C2577d8B4F5dbD1dB19626503e9079672",
+  //     //   });
+  //     //   console.log(balance);
+  //     // };
+  //     // testActions();
 
-    const unwatch = watchContractEvent(config, {
-      address: heirholdFactoryConfig.address,
-      abi: heirholdFactoryConfig.abi,
-      eventName: "CreateHeirholdWallet",
-      onLogs(logs) {
-        console.log(logs[0].args.walletAddress);
-        addNotification(
-          "New wallet created",
-          `Address ${logs[0].args.walletAddress}`
-        );
-      },
-    });
-    return () => {
-      console.log("unwatch");
-      unwatch();
-    };
-  }, []);
+  //     const unwatch = watchContractEvent(config, {
+  //       address: heirholdFactoryConfig.address,
+  //       abi: heirholdFactoryConfig.abi,
+  //       eventName: "CreateHeirholdWallet",
+  //       args: { owner: address },
+  //       onLogs(logs) {
+  //         console.log(logs);
+  //         addNotification(
+  //           "New wallet created",
+  //           `Address ${logs[0].args.walletAddress}`
+  //         );
+  //       },
+  //     });
+  //     return () => {
+  //       console.log("unwatch");
+  //       unwatch();
+  //     };
+  //   }, [address]);
 
   return (
     <ToastContainer className="p-3" position="top-end" style={{ zIndex: 1 }}>
