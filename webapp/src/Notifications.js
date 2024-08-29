@@ -1,11 +1,9 @@
 import { useState, useEffect } from "react";
 import { Toast, ToastContainer } from "react-bootstrap";
 import { watchContractEvent } from "@wagmi/core";
-import { heirholdFactoryAbi } from "./HeirholdFactoryAbi";
+import { heirholdFactoryConfig } from "./heirholdFactoryConfig";
 import { config } from "./config";
 import { getBalance } from "@wagmi/core";
-
-// { title: "Title", body: "Body", id: crypto.randomUUID() }
 
 export function Notifications() {
   const [notifications, setNotifications] = useState([]);
@@ -15,6 +13,11 @@ export function Notifications() {
       { title, body, id: crypto.randomUUID() },
     ]);
   };
+  //   const removeNotification = (id) => {
+  //     setNotifications((prevNotifications) =>
+  //       prevNotifications.filter((n) => n.id !== id)
+  //     );
+  //   };
 
   useEffect(() => {
     console.log("watch");
@@ -28,8 +31,8 @@ export function Notifications() {
     testActions();
 
     const unwatch = watchContractEvent(config, {
-      address: "0xEf06B4970F659E8B5025Ec588241F703d2467605",
-      abi: heirholdFactoryAbi,
+      address: heirholdFactoryConfig.address,
+      abi: heirholdFactoryConfig.abi,
       eventName: "CreateHeirholdWallet",
       onLogs(logs) {
         console.log(logs[0].args.walletAddress);
