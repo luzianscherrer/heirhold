@@ -1,4 +1,13 @@
-import { Container, Card, Badge, Col, Row, Button } from "react-bootstrap";
+import {
+  Container,
+  Card,
+  Badge,
+  Col,
+  Row,
+  Button,
+  Dropdown,
+  DropdownButton,
+} from "react-bootstrap";
 import { truncateAddress } from "./utils";
 
 export const HeirholdWallets = () => {
@@ -58,11 +67,11 @@ export const HeirholdWallets = () => {
                 </td>
               </tr>
               <tr>
-                <th scope="row" className="align-top">
+                <th scope="row" className="pt-3 align-top">
                   Pending claims:
                 </th>
                 <td>
-                  <div className="ms-3">
+                  <div className="ms-3 pt-3">
                     <i>Claimant 0xe712336C2577d8B4F5dbD1dB19626503e9079672</i>
                   </div>
                   <div className="ms-3">
@@ -89,9 +98,25 @@ export const HeirholdWallets = () => {
                 <Button variant="outline-primary" className="ms-2">
                   Withdraw
                 </Button>
-                <Button variant="outline-primary" className="ms-2">
-                  Edit
-                </Button>
+                <DropdownButton
+                  variant="outline-primary"
+                  className="ms-2 d-inline-block"
+                  title="Edit"
+                >
+                  <Dropdown.Item as="button">
+                    Change claim grace period
+                  </Dropdown.Item>
+                  <Dropdown.Item as="button">
+                    Change claim deposit fee
+                  </Dropdown.Item>
+                  <Dropdown.Item as="button">
+                    Remove claimant 0xe712336C2577d8B4F5dbD1dB19626503e9079672
+                  </Dropdown.Item>
+                  <Dropdown.Item as="button">
+                    Remove claimant 0x247061b632062bB8bF30937A901bc4097a46f383
+                  </Dropdown.Item>
+                  <Dropdown.Item as="button">Add a new claimant</Dropdown.Item>
+                </DropdownButton>
               </Col>
             </Row>
           </Container>
