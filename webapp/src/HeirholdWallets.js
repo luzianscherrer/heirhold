@@ -23,11 +23,6 @@ export const HeirholdWallets = () => {
               </Row>
             </Container>
           </Card.Title>
-          {/* <Card.Subtitle className="mb-2 text-muted">
-            <Button variant="outline-secondary" size="sm">
-              Edit
-            </Button>
-          </Card.Subtitle> */}
           <table>
             <tbody>
               <tr>
@@ -51,9 +46,33 @@ export const HeirholdWallets = () => {
                 </td>
               </tr>
               <tr>
-                <th scope="row">Active claims:</th>
+                <th scope="row" className="align-top">
+                  Allowed claimants:
+                </th>
                 <td>
-                  <div className="ms-3">none</div>
+                  <div className="ms-3">
+                    0xe712336C2577d8B4F5dbD1dB19626503e9079672
+                    <br />
+                    0x247061b632062bB8bF30937A901bc4097a46f383
+                  </div>
+                </td>
+              </tr>
+              <tr>
+                <th scope="row" className="align-top">
+                  Pending claims:
+                </th>
+                <td>
+                  <div className="ms-3">
+                    <i>Claimant 0xe712336C2577d8B4F5dbD1dB19626503e9079672</i>
+                  </div>
+                  <div className="ms-3">
+                    This claim will unlock 2024-11-13 13:49{" "}
+                  </div>
+                  <div className="ms-3">
+                    <Button variant="outline-danger" size="sm" className="mt-1">
+                      REJECT
+                    </Button>
+                  </div>
                 </td>
               </tr>
             </tbody>
@@ -63,7 +82,7 @@ export const HeirholdWallets = () => {
           <Container fluid className="p-0">
             <Row>
               <Col className="d-flex align-items-center">
-                Balance: <strong className="ms-2">12.3 ETH</strong>
+                Balance: <strong className="ms-2">12.308 ETH</strong>
               </Col>
               <Col className="text-end">
                 <Button variant="outline-primary">Top-up</Button>
