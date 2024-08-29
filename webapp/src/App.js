@@ -12,6 +12,8 @@ import Logo from "./logo.svg";
 
 const queryClient = new QueryClient();
 
+document.body.style = "background: #fbfbfb;";
+
 function ConnectWallet() {
   const { isConnected } = useAccount();
   if (isConnected) return <Account />;
