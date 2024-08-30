@@ -72,10 +72,10 @@ export const HeirholdWallets = () => {
                 </th>
                 <td>
                   <div className="ms-3 pt-3">
-                    <i>Claimant 0xe712336C2577d8B4F5dbD1dB19626503e9079672</i>
+                    Claimant 0xe712336C2577d8B4F5dbD1dB19626503e9079672
                   </div>
                   <div className="ms-3">
-                    This claim will unlock 2024-11-13 13:49{" "}
+                    <i>This claim will unlock 2024-11-13 13:49</i>
                   </div>
                   <div className="ms-3">
                     <Button variant="outline-danger" size="sm" className="mt-1">
@@ -110,10 +110,16 @@ export const HeirholdWallets = () => {
                     Change claim deposit fee
                   </Dropdown.Item>
                   <Dropdown.Item as="button">
-                    Remove claimant 0xe712336C2577d8B4F5dbD1dB19626503e9079672
+                    Remove claimant{" "}
+                    {truncateAddress(
+                      "0xe712336C2577d8B4F5dbD1dB19626503e9079672"
+                    )}
                   </Dropdown.Item>
                   <Dropdown.Item as="button">
-                    Remove claimant 0x247061b632062bB8bF30937A901bc4097a46f383
+                    Remove claimant{" "}
+                    {truncateAddress(
+                      "0x247061b632062bB8bF30937A901bc4097a46f383"
+                    )}
                   </Dropdown.Item>
                   <Dropdown.Item as="button">Add a new claimant</Dropdown.Item>
                 </DropdownButton>
