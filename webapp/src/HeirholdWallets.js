@@ -120,20 +120,28 @@ export const HeirholdWallets = () => {
                     </Col>
                     <Col className="text-end">
                       {address === wallet.owner && (
-                        <Badge bg="secondary">OWNER</Badge>
+                        <Badge pill bg="secondary">
+                          OWNER
+                        </Badge>
                       )}
                       {address !== wallet.owner &&
                         wallet.allowedClaimants.includes(address) &&
                         wallet.claims.filter(
                           (claim) => claim.claimant === address
                         ).length === 0 && (
-                          <Badge bg="secondary">CLAIMABLE</Badge>
+                          <Badge pill bg="secondary">
+                            CLAIMABLE
+                          </Badge>
                         )}
                       {address !== wallet.owner &&
                         wallet.allowedClaimants.includes(address) &&
                         wallet.claims.filter(
                           (claim) => claim.claimant === address
-                        ).length === 1 && <Badge bg="secondary">CLAIMED</Badge>}
+                        ).length === 1 && (
+                          <Badge pill bg="secondary">
+                            CLAIMED
+                          </Badge>
+                        )}
                     </Col>
                   </Row>
                 </Container>
@@ -213,7 +221,7 @@ export const HeirholdWallets = () => {
                                 ).toLocaleString()}
                               </i>{" "}
                               {claimIsUnlocked(wallet, claim) && (
-                                <Badge bg="warning" text="dark">
+                                <Badge pill bg="warning" text="dark">
                                   UNLOCKED CLAIM
                                 </Badge>
                               )}
