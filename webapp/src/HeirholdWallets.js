@@ -122,6 +122,10 @@ export const HeirholdWallets = () => {
                       {address === wallet.owner && (
                         <Badge bg="secondary">OWNER</Badge>
                       )}
+                      {address !== wallet.owner &&
+                        wallet.allowedClaimants.includes(address) && (
+                          <Badge bg="secondary">CLAIMABLE</Badge>
+                        )}
                     </Col>
                   </Row>
                 </Container>
