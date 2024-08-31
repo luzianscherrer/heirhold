@@ -175,6 +175,8 @@ contract HeirholdWallet {
                 );
                 foundClaim = true;
                 owner = payable(msg.sender);
+                delete allowedClaimants;
+                delete claims;
 
                 emit HeirholdWalletExecuteClaimTransferOwnership(owner);
                 break;
