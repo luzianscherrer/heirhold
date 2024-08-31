@@ -9,7 +9,7 @@ import {
   DropdownButton,
 } from "react-bootstrap";
 import { useState } from "react";
-import { truncateAddress } from "./utils";
+import { truncateAddress, parseClaimGracePeriod } from "./utils";
 import { useAccount, chain } from "wagmi";
 import { formatEther } from "viem";
 
@@ -22,7 +22,7 @@ export const HeirholdWallets = () => {
       address: "0x0095a405ca5277b9c27d7bfe0d5ce1f92515942f",
       owner: "0xe712336C2577d8B4F5dbD1dB19626503e9079672",
       balance: BigInt(1238000000000000000n),
-      claimGracePeriod: 864000,
+      claimGracePeriod: BigInt(604800n),
       claimDepositFeeAmount: BigInt(100000000000000000n),
       allowedClaimants: [
         "0xe712336C2577d8B4F5dbD1dB19626503e9079672",
@@ -31,7 +31,7 @@ export const HeirholdWallets = () => {
       claims: [
         {
           claimant: "0xe712336C2577d8B4F5dbD1dB19626503e9079672",
-          timestamp: 1725086017,
+          timestamp: BigInt(1025086017n),
         },
       ],
     },
@@ -39,7 +39,7 @@ export const HeirholdWallets = () => {
       address: "0xc0ffee254729296a45a3885639AC7E10F9d54979",
       owner: "0x247061b632062bB8bF30937A901bc4097a46f383",
       balance: BigInt(12338457800000000000n),
-      claimGracePeriod: 864000,
+      claimGracePeriod: BigInt(864000n),
       claimDepositFeeAmount: BigInt(100000000000000000n),
       allowedClaimants: [
         "0xe712336C2577d8B4F5dbD1dB19626503e9079672",
@@ -48,11 +48,53 @@ export const HeirholdWallets = () => {
       claims: [
         {
           claimant: "0xe712336C2577d8B4F5dbD1dB19626503e9079672",
-          timestamp: 1725086017,
+          timestamp: BigInt(1725857642n),
         },
       ],
     },
   ]);
+
+  function claimIsUnlocked(wallet, claim) {
+    return (
+      new Date(
+        (Number(claim.timestamp) + Number(wallet.claimGracePeriod)) * 1000
+      ) < new Date()
+    );
+  }
+
+  function claimState(wallet, address) {
+    if (wallet.allowedClaimants.includes(address)) {
+      if (
+        wallet.claims.filter((claim) => claim.claimant === address).length === 1
+      ) {
+        if (
+          claimIsUnlocked(
+            wallet,
+            wallet.claims.find((claim) => claim.claimant === address)
+          )
+        ) {
+          return (
+            <Col className="text-end">
+              <Button variant="outline-danger">Execute claim</Button>
+            </Col>
+          );
+        }
+      } else {
+        return (
+          <Col className="text-end">
+            <Button variant="outline-primary">Claim</Button>
+          </Col>
+        );
+      }
+    }
+    return (
+      <Col className="text-end">
+        <Button variant="outline-primary" disabled>
+          Claim
+        </Button>
+      </Col>
+    );
+  }
 
   return (
     <Container fluid className="p-0">
@@ -85,7 +127,9 @@ export const HeirholdWallets = () => {
                   <tr>
                     <th scope="row">Claim grace period:</th>
                     <td>
-                      <div className="ms-3">{wallet.claimGracePeriod}</div>
+                      <div className="ms-3">
+                        {parseClaimGracePeriod(wallet.claimGracePeriod)}
+                      </div>
                     </td>
                   </tr>
                   <tr>
@@ -133,12 +177,24 @@ export const HeirholdWallets = () => {
                             </div>
                             <div className="ms-3">
                               <i>
-                                This claim will unlock{" "}
+                                This claim{" "}
+                                {claimIsUnlocked(wallet, claim) ? (
+                                  <>did</>
+                                ) : (
+                                  <>will</>
+                                )}{" "}
+                                unlock{" "}
                                 {new Date(
-                                  (claim.timestamp + wallet.claimGracePeriod) *
+                                  (Number(claim.timestamp) +
+                                    Number(wallet.claimGracePeriod)) *
                                     1000
                                 ).toLocaleString()}
-                              </i>
+                              </i>{" "}
+                              {claimIsUnlocked(wallet, claim) && (
+                                <Badge bg="warning" text="dark">
+                                  UNLOCKED CLAIM
+                                </Badge>
+                              )}
                             </div>
                             {wallet.owner === address && (
                               <div className="ms-3">
@@ -210,14 +266,7 @@ export const HeirholdWallets = () => {
                       </DropdownButton>
                     </Col>
                   ) : (
-                    <Col className="text-end">
-                      <Button
-                        variant="outline-primary"
-                        disabled={!wallet.allowedClaimants.includes(address)}
-                      >
-                        Claim
-                      </Button>
-                    </Col>
+                    claimState(wallet, address)
                   )}
                 </Row>
               </Container>
