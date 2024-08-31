@@ -106,19 +106,21 @@ function MainContent() {
       claims: claims.result,
     };
 
-    console.log("before1", wallets);
-    let newWallets = structuredClone(wallets);
-    console.log("before2", newWallets);
-    const index = newWallets.findIndex((obj) => obj.address === wallet.address);
-    if (index !== -1) {
-      newWallets[index] = wallet;
-      console.log("update");
-    } else {
-      newWallets.push(wallet);
-      console.log("add");
-    }
-    console.log("after", newWallets);
-    setWallets(newWallets);
+    setWallets((wallets) => {
+      let newWallets = structuredClone(wallets);
+      const index = newWallets.findIndex(
+        (obj) => obj.address === wallet.address
+      );
+      if (index !== -1) {
+        newWallets[index] = wallet;
+        console.log("update");
+      } else {
+        newWallets.push(wallet);
+        console.log("add");
+      }
+
+      return newWallets;
+    });
   };
 
   useEffect(() => {
