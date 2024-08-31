@@ -81,7 +81,7 @@ export const HeirholdWallets = () => {
         } else {
           return (
             <Col className="text-end">
-              <Button variant="outline-primary">Remove claim</Button>
+              <Button variant="outline-primary">Cancel claim</Button>
             </Col>
           );
         }
@@ -123,9 +123,17 @@ export const HeirholdWallets = () => {
                         <Badge bg="secondary">OWNER</Badge>
                       )}
                       {address !== wallet.owner &&
-                        wallet.allowedClaimants.includes(address) && (
+                        wallet.allowedClaimants.includes(address) &&
+                        wallet.claims.filter(
+                          (claim) => claim.claimant === address
+                        ).length === 0 && (
                           <Badge bg="secondary">CLAIMABLE</Badge>
                         )}
+                      {address !== wallet.owner &&
+                        wallet.allowedClaimants.includes(address) &&
+                        wallet.claims.filter(
+                          (claim) => claim.claimant === address
+                        ).length === 1 && <Badge bg="secondary">CLAIMED</Badge>}
                     </Col>
                   </Row>
                 </Container>
@@ -217,7 +225,7 @@ export const HeirholdWallets = () => {
                                   size="sm"
                                   className="mt-1"
                                 >
-                                  REJECT
+                                  Reject this claim
                                 </Button>
                               </div>
                             )}
