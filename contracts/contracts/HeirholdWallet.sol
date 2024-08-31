@@ -60,6 +60,14 @@ contract HeirholdWallet {
         return address(this).balance;
     }
 
+    function getAllowedClaimants() external view returns (address[] memory) {
+        return allowedClaimants;
+    }
+
+    function getClaims() external view returns (Claim[] memory) {
+        return claims;
+    }
+
     function transferOwnership(address payable newOwner) external onlyOwner {
         require(newOwner != address(0), "Address zero");
         require(newOwner != owner, "Already owner");

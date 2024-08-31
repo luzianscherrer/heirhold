@@ -69,31 +69,56 @@ function MainContent() {
   const readFullContract = async (address) => {
     console.log("read", address);
 
+    const values = [
+      "owner",
+      "getBalance",
+      "claimGracePeriod",
+      "claimDepositFeeAmount",
+      "getAllowedClaimants",
+      "getClaims",
+    ];
+
     const result = await readContracts(config, {
-      contracts: [
-        {
-          abi: heirholdWalletConfig.abi,
-          address: address,
-          functionName: "owner",
-          args: [],
-        },
-        {
-          abi: heirholdWalletConfig.abi,
-          address: address,
-          functionName: "claimGracePeriod",
-          args: [],
-        },
-        {
-          address: address,
-          abi: heirholdWalletConfig.abi,
-          functionName: "getBalance",
-        },
-      ],
+      contracts: values.map((value) => ({
+        abi: heirholdWalletConfig.abi,
+        address: address,
+        functionName: value,
+      })),
     });
-    const [owner, claimGracePeriod, balance] = result;
-    console.log("owner", owner.result);
-    console.log("claimGracePeriod", claimGracePeriod.result);
-    console.log("balance", balance.result);
+
+    console.log(result);
+    const [
+      owner,
+      balance,
+      claimGracePeriod,
+      claimDepositFeeAmount,
+      allowedClaimants,
+      claims,
+    ] = result;
+
+    const wallet = {
+      address: address,
+      owner: owner.result,
+      balance: balance.result,
+      claimGracePeriod: claimGracePeriod.result,
+      claimDepositFeeAmount: claimDepositFeeAmount.result,
+      allowedClaimants: allowedClaimants.result,
+      claims: claims.result,
+    };
+
+    console.log("before1", wallets);
+    let newWallets = structuredClone(wallets);
+    console.log("before2", newWallets);
+    const index = newWallets.findIndex((obj) => obj.address === wallet.address);
+    if (index !== -1) {
+      newWallets[index] = wallet;
+      console.log("update");
+    } else {
+      newWallets.push(wallet);
+      console.log("add");
+    }
+    console.log("after", newWallets);
+    setWallets(newWallets);
   };
 
   useEffect(() => {
@@ -113,7 +138,7 @@ function MainContent() {
       console.log("unwatch CreateHeirholdWallet");
       unwatch();
     };
-  }, [address]);
+  }, []);
 
   if (isConnected)
     return (
