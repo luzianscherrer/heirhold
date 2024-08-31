@@ -78,6 +78,12 @@ export const HeirholdWallets = () => {
               <Button variant="outline-danger">Execute claim</Button>
             </Col>
           );
+        } else {
+          return (
+            <Col className="text-end">
+              <Button variant="outline-primary">Remove claim</Button>
+            </Col>
+          );
         }
       } else {
         return (
@@ -89,7 +95,11 @@ export const HeirholdWallets = () => {
     }
     return (
       <Col className="text-end">
-        <Button variant="outline-primary" disabled>
+        <Button
+          variant="outline-primary"
+          style={{ visibility: "hidden" }}
+          disabled
+        >
           Claim
         </Button>
       </Col>
@@ -152,10 +162,10 @@ export const HeirholdWallets = () => {
                         {wallet.allowedClaimants.length ? (
                           wallet.allowedClaimants.map((claimant) => {
                             return (
-                              <>
+                              <div key={claimant}>
                                 {claimant}
                                 <br />
-                              </>
+                              </div>
                             );
                           })
                         ) : (
@@ -171,7 +181,7 @@ export const HeirholdWallets = () => {
                       </th>
                       {wallet.claims.map((claim) => {
                         return (
-                          <td>
+                          <td key={claim.claimant}>
                             <div className="ms-3 pt-3">
                               Claimant {claim.claimant}
                             </div>
@@ -255,7 +265,7 @@ export const HeirholdWallets = () => {
                         </Dropdown.Item>
                         {wallet.allowedClaimants.map((claimant) => {
                           return (
-                            <Dropdown.Item as="button">
+                            <Dropdown.Item as="button" key={claimant}>
                               Remove claimant {truncateAddress(claimant)}
                             </Dropdown.Item>
                           );
