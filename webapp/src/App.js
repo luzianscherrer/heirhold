@@ -2,13 +2,19 @@ import "./App.css";
 import { Container, Row, Col } from "react-bootstrap";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { WagmiProvider, useAccount } from "wagmi";
+import { watchContractEvent, readContracts } from "@wagmi/core";
 import { config } from "./config";
 import { WalletOptions } from "./WalletOptions";
 import { Account } from "./Account";
 import { Notifications } from "./Notifications";
 import { CreateHeirholdWallet } from "./CreateHeirholdWallet";
 import { HeirholdWallets } from "./HeirholdWallets";
+import { useState, useEffect } from "react";
+import { heirholdFactoryConfig } from "./heirholdFactoryConfig";
 import Logo from "./logo.svg";
+import { heirholdWalletConfig } from "./heirholdWalletConfig";
+
+/* global BigInt */
 
 const queryClient = new QueryClient();
 
@@ -21,7 +27,94 @@ function ConnectWallet() {
 }
 
 function MainContent() {
-  const { isConnected } = useAccount();
+  const { isConnected, address } = useAccount();
+  const [wallets, setWallets] = useState([]);
+  // const [wallets, setWallets] = useState([
+  //   {
+  //     address: "0x0095a405ca5277b9c27d7bfe0d5ce1f92515942f",
+  //     owner: "0xe712336C2577d8B4F5dbD1dB19626503e9079672",
+  //     balance: BigInt(1238000000000000000n),
+  //     claimGracePeriod: BigInt(604800n),
+  //     claimDepositFeeAmount: BigInt(100000000000000000n),
+  //     allowedClaimants: [
+  //       "0xe712336C2577d8B4F5dbD1dB19626503e9079672",
+  //       "0x247061b632062bB8bF30937A901bc4097a46f383",
+  //     ],
+  //     claims: [
+  //       {
+  //         claimant: "0xe712336C2577d8B4F5dbD1dB19626503e9079672",
+  //         timestamp: BigInt(1025086017n),
+  //       },
+  //     ],
+  //   },
+  //   {
+  //     address: "0xc0ffee254729296a45a3885639AC7E10F9d54979",
+  //     owner: "0x247061b632062bB8bF30937A901bc4097a46f383",
+  //     balance: BigInt(12338457800000000000n),
+  //     claimGracePeriod: BigInt(864000n),
+  //     claimDepositFeeAmount: BigInt(100000000000000000n),
+  //     allowedClaimants: [
+  //       "0xe712336C2577d8B4F5dbD1dB19626503e9079672",
+  //       "0x247061b632062bB8bF30937A901bc4097a46f383",
+  //     ],
+  //     claims: [
+  //       {
+  //         claimant: "0xe712336C2577d8B4F5dbD1dB19626503e9079672",
+  //         timestamp: BigInt(1725857642n),
+  //       },
+  //     ],
+  //   },
+  // ]);
+
+  const readFullContract = async (address) => {
+    console.log("read", address);
+
+    const result = await readContracts(config, {
+      contracts: [
+        {
+          abi: heirholdWalletConfig.abi,
+          address: address,
+          functionName: "owner",
+          args: [],
+        },
+        {
+          abi: heirholdWalletConfig.abi,
+          address: address,
+          functionName: "claimGracePeriod",
+          args: [],
+        },
+        {
+          address: address,
+          abi: heirholdWalletConfig.abi,
+          functionName: "getBalance",
+        },
+      ],
+    });
+    const [owner, claimGracePeriod, balance] = result;
+    console.log("owner", owner.result);
+    console.log("claimGracePeriod", claimGracePeriod.result);
+    console.log("balance", balance.result);
+  };
+
+  useEffect(() => {
+    console.log("watch CreateHeirholdWallet");
+    const unwatch = watchContractEvent(config, {
+      address: heirholdFactoryConfig.address,
+      abi: heirholdFactoryConfig.abi,
+      eventName: "CreateHeirholdWallet",
+      args: { owner: address },
+      onLogs(logs) {
+        console.log("logs", logs);
+        console.log(`new wallet ${logs[0].args.walletAddress}`);
+        readFullContract(logs[0].args.walletAddress);
+      },
+    });
+    return () => {
+      console.log("unwatch CreateHeirholdWallet");
+      unwatch();
+    };
+  }, [address]);
+
   if (isConnected)
     return (
       <>
@@ -35,7 +128,7 @@ function MainContent() {
         <Row className="p-2">
           <Col></Col>
           <Col lg={8}>
-            <HeirholdWallets />
+            <HeirholdWallets wallets={wallets} />
           </Col>
           <Col></Col>
         </Row>

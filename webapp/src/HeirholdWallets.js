@@ -8,51 +8,14 @@ import {
   Dropdown,
   DropdownButton,
 } from "react-bootstrap";
-import { useState } from "react";
 import { truncateAddress, parseClaimGracePeriod } from "./utils";
 import { useAccount, chain } from "wagmi";
 import { formatEther } from "viem";
 
-export const HeirholdWallets = () => {
+export const HeirholdWallets = ({ wallets }) => {
   /* global BigInt */
 
   const { address, chain } = useAccount();
-  const [wallets, setWallets] = useState([
-    {
-      address: "0x0095a405ca5277b9c27d7bfe0d5ce1f92515942f",
-      owner: "0xe712336C2577d8B4F5dbD1dB19626503e9079672",
-      balance: BigInt(1238000000000000000n),
-      claimGracePeriod: BigInt(604800n),
-      claimDepositFeeAmount: BigInt(100000000000000000n),
-      allowedClaimants: [
-        "0xe712336C2577d8B4F5dbD1dB19626503e9079672",
-        "0x247061b632062bB8bF30937A901bc4097a46f383",
-      ],
-      claims: [
-        {
-          claimant: "0xe712336C2577d8B4F5dbD1dB19626503e9079672",
-          timestamp: BigInt(1025086017n),
-        },
-      ],
-    },
-    {
-      address: "0xc0ffee254729296a45a3885639AC7E10F9d54979",
-      owner: "0x247061b632062bB8bF30937A901bc4097a46f383",
-      balance: BigInt(12338457800000000000n),
-      claimGracePeriod: BigInt(864000n),
-      claimDepositFeeAmount: BigInt(100000000000000000n),
-      allowedClaimants: [
-        "0xe712336C2577d8B4F5dbD1dB19626503e9079672",
-        "0x247061b632062bB8bF30937A901bc4097a46f383",
-      ],
-      claims: [
-        {
-          claimant: "0xe712336C2577d8B4F5dbD1dB19626503e9079672",
-          timestamp: BigInt(1725857642n),
-        },
-      ],
-    },
-  ]);
 
   function claimIsUnlocked(wallet, claim) {
     return (
