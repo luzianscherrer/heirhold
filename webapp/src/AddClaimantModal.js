@@ -48,8 +48,11 @@ export const AddClaimantModal = ({
   useEffect(() => {
     handleClose();
 
-    if (error) console.log(error);
-  }, [error, handleClose]);
+    if (error) {
+      console.log(error);
+      addNotification("Transaction failed", "This operation is not possible.");
+    }
+  }, [error, handleClose, addNotification]);
 
   useEffect(() => {
     handleClose();

@@ -13,6 +13,7 @@ import { useAccount } from "wagmi";
 import { formatEther } from "viem";
 import { AddClaimantModal } from "./AddClaimantModal";
 import { ChangeClaimGracePeriodModal } from "./ChangeClaimGracePeriodModal";
+import { ChangeClaimDepositFeeModal } from "./ChangeClaimDepositFeeModal";
 import { TopUpModal } from "./TopUpModal";
 import { WithdrawModal } from "./WithdrawModal";
 import { useState, useEffect } from "react";
@@ -27,6 +28,9 @@ export const HeirholdWallets = ({ wallets, setWallets, addNotification }) => {
   const [showTopUpModal, setShowTopUpModal] = useState();
   const [showWithdrawModal, setShowWithdrawModal] = useState();
   const [showChangeClaimGracePeriodModal, setShowChangeClaimGracePeriodModal] =
+    useState();
+  const [modalClaimDepositFee, setModalClaimDepositFee] = useState("");
+  const [showChangeClaimDepositFeeModal, setShowChangeClaimDepositFeeModal] =
     useState();
   const { data: hash, writeContract } = useWriteContract();
 
@@ -290,7 +294,16 @@ export const HeirholdWallets = ({ wallets, setWallets, addNotification }) => {
                             >
                               Change claim grace period
                             </Dropdown.Item>
-                            <Dropdown.Item as="button">
+                            <Dropdown.Item
+                              as="button"
+                              onClick={() => {
+                                setModalAddress(wallet.address);
+                                setModalClaimDepositFee(
+                                  formatEther(wallet.claimDepositFeeAmount)
+                                );
+                                setShowChangeClaimDepositFeeModal(true);
+                              }}
+                            >
                               Change claim deposit fee
                             </Dropdown.Item>
                             {wallet.allowedClaimants.map((claimant) => {
@@ -342,43 +355,47 @@ export const HeirholdWallets = ({ wallets, setWallets, addNotification }) => {
                   </Container>
                 </Card.Footer>
               </Card>
-
-              <AddClaimantModal
-                showAddClaimantModal={showAddClaimantModal}
-                setShowAddClaimantModal={setShowAddClaimantModal}
-                address={modalAddress}
-                addNotification={addNotification}
-              />
-
-              <TopUpModal
-                showTopUpModal={showTopUpModal}
-                setShowTopUpModal={setShowTopUpModal}
-                address={modalAddress}
-                addNotification={addNotification}
-              />
-
-              <WithdrawModal
-                showWithdrawModal={showWithdrawModal}
-                setShowWithdrawModal={setShowWithdrawModal}
-                address={modalAddress}
-                addNotification={addNotification}
-              />
-
-              <ChangeClaimGracePeriodModal
-                showChangeClaimGracePeriodModal={
-                  showChangeClaimGracePeriodModal
-                }
-                setShowChangeClaimGracePeriodModal={
-                  setShowChangeClaimGracePeriodModal
-                }
-                address={modalAddress}
-                addNotification={addNotification}
-                currentValueGracePeriod={modalClaimGracePeriod}
-              />
             </div>
           );
         })}
       </Container>
+
+      <AddClaimantModal
+        showAddClaimantModal={showAddClaimantModal}
+        setShowAddClaimantModal={setShowAddClaimantModal}
+        address={modalAddress}
+        addNotification={addNotification}
+      />
+
+      <TopUpModal
+        showTopUpModal={showTopUpModal}
+        setShowTopUpModal={setShowTopUpModal}
+        address={modalAddress}
+        addNotification={addNotification}
+      />
+
+      <WithdrawModal
+        showWithdrawModal={showWithdrawModal}
+        setShowWithdrawModal={setShowWithdrawModal}
+        address={modalAddress}
+        addNotification={addNotification}
+      />
+
+      <ChangeClaimGracePeriodModal
+        showChangeClaimGracePeriodModal={showChangeClaimGracePeriodModal}
+        setShowChangeClaimGracePeriodModal={setShowChangeClaimGracePeriodModal}
+        address={modalAddress}
+        addNotification={addNotification}
+        currentValueGracePeriod={modalClaimGracePeriod}
+      />
+
+      <ChangeClaimDepositFeeModal
+        showChangeClaimDepositFeeModal={showChangeClaimDepositFeeModal}
+        setShowChangeClaimDepositFeeModal={setShowChangeClaimDepositFeeModal}
+        address={modalAddress}
+        addNotification={addNotification}
+        currentValueDepositFee={modalClaimDepositFee}
+      />
     </>
   );
 };
