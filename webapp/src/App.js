@@ -9,7 +9,7 @@ import { Account } from "./Account";
 import { Notifications } from "./Notifications";
 import { CreateHeirholdWallet } from "./CreateHeirholdWallet";
 import { HeirholdWallets } from "./HeirholdWallets";
-import { useState, useEffect } from "react";
+import { useState, useEffect, useCallback, useRef } from "react";
 import { heirholdFactoryConfig } from "./heirholdFactoryConfig";
 import Logo from "./logo.svg";
 import { heirholdWalletConfig } from "./heirholdWalletConfig";
@@ -28,6 +28,7 @@ function ConnectWallet() {
 function MainContent({ notifications, setNotifications }) {
   const { isConnected, address } = useAccount();
   const [wallets, setWallets] = useState([]);
+  const initialized = useRef(false);
 
   // const [wallets, setWallets] = useState([
   //   {
@@ -66,97 +67,160 @@ function MainContent({ notifications, setNotifications }) {
   //   },
   // ]);
 
-  const addNotification = (title, body) => {
-    setNotifications((prevNotifications) => [
-      ...prevNotifications,
-      { title, body, id: crypto.randomUUID() },
-    ]);
-  };
+  const addNotification = useCallback(
+    (title, body) => {
+      setNotifications((prevNotifications) => [
+        ...prevNotifications,
+        { title, body, id: crypto.randomUUID() },
+      ]);
+    },
+    [setNotifications]
+  );
 
-  const readFullContract = async (address, reportError) => {
-    console.log("read", address);
+  const readFullContract = useCallback(
+    async (address, reportError) => {
+      console.log("read", address);
 
-    const values = [
-      "owner",
-      "getBalance",
-      "claimGracePeriod",
-      "claimDepositFeeAmount",
-      "getAllowedClaimants",
-      "getClaims",
-    ];
+      const values = [
+        "owner",
+        "getBalance",
+        "claimGracePeriod",
+        "claimDepositFeeAmount",
+        "getAllowedClaimants",
+        "getClaims",
+      ];
 
-    try {
-      const result = await readContracts(config, {
-        allowFailure: false,
-        contracts: values.map((value) => ({
-          abi: heirholdWalletConfig.abi,
+      try {
+        const result = await readContracts(config, {
+          allowFailure: false,
+          contracts: values.map((value) => ({
+            abi: heirholdWalletConfig.abi,
+            address: address,
+            functionName: value,
+          })),
+        });
+
+        console.log(result);
+        const [
+          owner,
+          balance,
+          claimGracePeriod,
+          claimDepositFeeAmount,
+          allowedClaimants,
+          claims,
+        ] = result;
+
+        const wallet = {
           address: address,
-          functionName: value,
-        })),
-      });
+          owner: owner,
+          balance: balance,
+          claimGracePeriod: claimGracePeriod,
+          claimDepositFeeAmount: claimDepositFeeAmount,
+          allowedClaimants: allowedClaimants,
+          claims: claims,
+        };
 
-      console.log(result);
-      const [
-        owner,
-        balance,
-        claimGracePeriod,
-        claimDepositFeeAmount,
-        allowedClaimants,
-        claims,
-      ] = result;
-
-      const wallet = {
-        address: address,
-        owner: owner,
-        balance: balance,
-        claimGracePeriod: claimGracePeriod,
-        claimDepositFeeAmount: claimDepositFeeAmount,
-        allowedClaimants: allowedClaimants,
-        claims: claims,
-      };
-
-      setWallets((wallets) => {
         let newWallets = structuredClone(wallets);
         const index = newWallets.findIndex(
           (obj) => obj.address === wallet.address
         );
         if (index !== -1) {
-          newWallets[index] = wallet;
-          console.log("update", wallet);
+          const newWalletStr = JSON.stringify(wallet, (_, v) =>
+            typeof v === "bigint" ? v.toString() : v
+          );
+          const existingWalletStr = JSON.stringify(newWallets[index], (_, v) =>
+            typeof v === "bigint" ? v.toString() : v
+          );
+          if (newWalletStr !== existingWalletStr) {
+            newWallets[index] = wallet;
+            console.log("update", wallet);
+            setWallets(newWallets);
+          }
         } else {
           newWallets.unshift(wallet);
           console.log("add", wallet);
+          setWallets(newWallets);
         }
-
-        localStorage.setItem(
-          "wallets",
-          JSON.stringify(newWallets.map((w) => w.address))
-        );
-
-        return newWallets;
-      });
-    } catch (error) {
-      console.log("Error reading contract data", error);
-      if (reportError) {
-        addNotification(
-          "Import failed",
-          `The wallet ${address} could not be imported into your dashboard. Is it a valid Heirhold wallet?`
-        );
+      } catch (error) {
+        console.log("Error reading contract data", error);
+        if (reportError) {
+          addNotification(
+            "Import failed",
+            `The wallet ${address} could not be imported into your dashboard. Is it a valid Heirhold wallet?`
+          );
+        }
       }
-    }
-  };
+    },
+    [addNotification, wallets]
+  );
 
   useEffect(() => {
     const loadFromStorage = async () => {
-      const wallets = JSON.parse(localStorage.getItem("wallets") || "[]");
-      console.log("load storage wallets", wallets);
-      for (const wallet of wallets.slice().reverse()) {
-        console.log("loading ", wallet);
-        await readFullContract(wallet, false);
+      let walletsToAdd = [];
+      const storedWalletAddresses = JSON.parse(
+        localStorage.getItem("wallets") || "[]"
+      );
+      console.log("load storage wallets", storedWalletAddresses);
+      const values = [
+        "owner",
+        "getBalance",
+        "claimGracePeriod",
+        "claimDepositFeeAmount",
+        "getAllowedClaimants",
+        "getClaims",
+      ];
+      for (const storedWalletAddress of storedWalletAddresses) {
+        console.log("loading ", storedWalletAddress);
+        try {
+          const result = await readContracts(config, {
+            allowFailure: false,
+            contracts: values.map((value) => ({
+              abi: heirholdWalletConfig.abi,
+              address: storedWalletAddress,
+              functionName: value,
+            })),
+          });
+
+          const [
+            owner,
+            balance,
+            claimGracePeriod,
+            claimDepositFeeAmount,
+            allowedClaimants,
+            claims,
+          ] = result;
+
+          const wallet = {
+            address: storedWalletAddress,
+            owner: owner,
+            balance: balance,
+            claimGracePeriod: claimGracePeriod,
+            claimDepositFeeAmount: claimDepositFeeAmount,
+            allowedClaimants: allowedClaimants,
+            claims: claims,
+          };
+          walletsToAdd.push(wallet);
+        } catch (error) {
+          console.log("error loading", error);
+        }
       }
+      setWallets(walletsToAdd);
+      console.log("load done");
     };
-    loadFromStorage();
+    if (!initialized.current) {
+      initialized.current = true;
+      loadFromStorage();
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
+
+  useEffect(() => {
+    console.log("wallets changed, persist to local storage", wallets);
+    localStorage.setItem(
+      "wallets",
+      JSON.stringify(wallets.map((w) => w.address))
+    );
+  }, [wallets]);
 
   useEffect(() => {
     console.log("watch CreateHeirholdWallet");
@@ -175,7 +239,29 @@ function MainContent({ notifications, setNotifications }) {
       console.log("unwatch CreateHeirholdWallet");
       unwatch();
     };
-  }, []);
+  }, [readFullContract, address]);
+
+  useEffect(() => {
+    const unwatches = wallets.map((wallet) => {
+      console.log(`watch HeirholdWalletSettingsChange ${wallet.address}`);
+      return watchContractEvent(config, {
+        address: wallet.address,
+        abi: heirholdWalletConfig.abi,
+        eventName: "HeirholdWalletSettingsChange",
+        onLogs(logs) {
+          console.log("logs", logs);
+          readFullContract(wallet.address, false);
+        },
+      });
+    });
+    return () => {
+      console.log("unwatch HeirholdWalletSettingsChange");
+      unwatches.forEach((unwatch) => {
+        console.log("unwatch HeirholdWalletSettingsChange");
+        unwatch();
+      });
+    };
+  }, [wallets, readFullContract]);
 
   if (isConnected)
     return (

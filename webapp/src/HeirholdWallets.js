@@ -272,16 +272,6 @@ export const HeirholdWallets = ({ wallets, setWallets, addNotification }) => {
                                     (w) => w.address !== wallet.address
                                   )
                                 );
-                                localStorage.setItem(
-                                  "wallets",
-                                  JSON.stringify(
-                                    wallets
-                                      .filter(
-                                        (w) => w.address !== wallet.address
-                                      )
-                                      .map((w) => w.address)
-                                  )
-                                );
                               }}
                             >
                               Remove wallet from dashboard
