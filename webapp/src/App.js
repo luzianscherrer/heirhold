@@ -263,6 +263,28 @@ function MainContent({ notifications, setNotifications }) {
     };
   }, [wallets, readFullContract]);
 
+  useEffect(() => {
+    const unwatches = wallets.map((wallet) => {
+      console.log(`watch HeirholdWalletBalanceChange ${wallet.address}`);
+      return watchContractEvent(config, {
+        address: wallet.address,
+        abi: heirholdWalletConfig.abi,
+        eventName: "HeirholdWalletBalanceChange",
+        onLogs(logs) {
+          console.log("logs", logs);
+          readFullContract(wallet.address, false);
+        },
+      });
+    });
+    return () => {
+      console.log("unwatch HeirholdWalletBalanceChange");
+      unwatches.forEach((unwatch) => {
+        console.log("unwatch HeirholdWalletBalanceChange");
+        unwatch();
+      });
+    };
+  }, [wallets, readFullContract]);
+
   if (isConnected)
     return (
       <>

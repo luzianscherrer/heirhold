@@ -12,6 +12,7 @@ import { truncateAddress, parseClaimGracePeriod } from "./utils";
 import { useAccount } from "wagmi";
 import { formatEther } from "viem";
 import { AddClaimantModal } from "./AddClaimantModal";
+import { TopUpModal } from "./TopUpModal";
 import { useState, useEffect } from "react";
 import { useWriteContract } from "wagmi";
 import { heirholdWalletConfig } from "./heirholdWalletConfig";
@@ -19,6 +20,7 @@ import { heirholdWalletConfig } from "./heirholdWalletConfig";
 export const HeirholdWallets = ({ wallets, setWallets, addNotification }) => {
   const { address, chain } = useAccount();
   const [showAddClaimantModal, setShowAddClaimantModal] = useState();
+  const [showTopUpModal, setShowTopUpModal] = useState();
   const { data: hash, writeContract } = useWriteContract();
 
   useEffect(() => {
@@ -244,7 +246,12 @@ export const HeirholdWallets = ({ wallets, setWallets, addNotification }) => {
                       </Col>
                       {wallet.owner === address ? (
                         <Col className="text-end">
-                          <Button variant="outline-primary">Top-up</Button>
+                          <Button
+                            variant="outline-primary"
+                            onClick={() => setShowTopUpModal(true)}
+                          >
+                            Top-up
+                          </Button>
                           <Button
                             variant="outline-primary"
                             className="ms-2"
@@ -313,6 +320,13 @@ export const HeirholdWallets = ({ wallets, setWallets, addNotification }) => {
               <AddClaimantModal
                 showAddClaimantModal={showAddClaimantModal}
                 setShowAddClaimantModal={setShowAddClaimantModal}
+                address={wallet.address}
+                addNotification={addNotification}
+              />
+
+              <TopUpModal
+                showTopUpModal={showTopUpModal}
+                setShowTopUpModal={setShowTopUpModal}
                 address={wallet.address}
                 addNotification={addNotification}
               />
