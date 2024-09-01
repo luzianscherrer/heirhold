@@ -1,16 +1,15 @@
 {
   "files": {
-    "main.css": "/heirhold/static/css/main.e648d1d9.css",
-    "main.js": "/heirhold/static/js/main.9c001d34.js",
-    "static/js/453.8566eefc.chunk.js": "/heirhold/static/js/453.8566eefc.chunk.js",
-    "static/media/logo.svg": "/heirhold/static/media/logo.f20c6fa4f3ed8fe10de29eb9ccfa2a4c.svg",
-    "index.html": "/heirhold/index.html",
-    "main.e648d1d9.css.map": "/heirhold/static/css/main.e648d1d9.css.map",
-    "main.9c001d34.js.map": "/heirhold/static/js/main.9c001d34.js.map",
-    "453.8566eefc.chunk.js.map": "/heirhold/static/js/453.8566eefc.chunk.js.map"
+    "main.css": "/heirhold/static/css/main.ed5c64fc.css",
+    "main.js": "/heirhold/static/js/main.446025e4.js",
+    "static/js/825.7e4ae626.chunk.js": "/heirhold/static/js/825.7e4ae626.chunk.js",
+    "static/js/259.7c44a3d1.chunk.js": "/heirhold/static/js/259.7c44a3d1.chunk.js",
+    "static/js/206.1b29e3ba.chunk.js": "/heirhold/static/js/206.1b29e3ba.chunk.js",
+    "static/media/logo.svg": "/heirhold/static/media/logo.8325da7dae117bfe206004d5ac795baa.svg",
+    "index.html": "/heirhold/index.html"
   },
   "entrypoints": [
-    "static/css/main.e648d1d9.css",
-    "static/js/main.9c001d34.js"
+    "static/css/main.ed5c64fc.css",
+    "static/js/main.446025e4.js"
   ]
 }
