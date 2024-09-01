@@ -150,11 +150,15 @@ function MainContent({ notifications, setNotifications }) {
   };
 
   useEffect(() => {
-    const wallets = JSON.parse(localStorage.getItem("wallets") || "[]");
-    console.log("load storage wallets", wallets);
-    wallets.forEach((wallet) => {
-      readFullContract(wallet, false);
-    });
+    const loadFromStorage = async () => {
+      const wallets = JSON.parse(localStorage.getItem("wallets") || "[]");
+      console.log("load storage wallets", wallets);
+      for (const wallet of wallets.slice().reverse()) {
+        console.log("loading ", wallet);
+        await readFullContract(wallet, false);
+      }
+    };
+    loadFromStorage();
   }, []);
 
   useEffect(() => {
@@ -190,7 +194,7 @@ function MainContent({ notifications, setNotifications }) {
         <Row className="p-2">
           <Col></Col>
           <Col lg={8}>
-            <HeirholdWallets wallets={wallets} />
+            <HeirholdWallets wallets={wallets} setWallets={setWallets} />
           </Col>
           <Col></Col>
         </Row>

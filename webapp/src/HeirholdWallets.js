@@ -12,7 +12,7 @@ import { truncateAddress, parseClaimGracePeriod } from "./utils";
 import { useAccount, chain } from "wagmi";
 import { formatEther } from "viem";
 
-export const HeirholdWallets = ({ wallets }) => {
+export const HeirholdWallets = ({ wallets, setWallets }) => {
   /* global BigInt */
 
   const { address, chain } = useAccount();
@@ -256,7 +256,24 @@ export const HeirholdWallets = ({ wallets }) => {
                         <Dropdown.Item as="button">
                           Add a new claimant
                         </Dropdown.Item>
-                        <Dropdown.Item as="button">
+                        <Dropdown.Item
+                          as="button"
+                          onClick={() => {
+                            setWallets(
+                              wallets.filter(
+                                (w) => w.address !== wallet.address
+                              )
+                            );
+                            localStorage.setItem(
+                              "wallets",
+                              JSON.stringify(
+                                wallets
+                                  .filter((w) => w.address !== wallet.address)
+                                  .map((w) => w.address)
+                              )
+                            );
+                          }}
+                        >
                           Remove wallet from dashboard
                         </Dropdown.Item>
                       </DropdownButton>
