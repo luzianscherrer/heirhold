@@ -9,14 +9,12 @@ import {
   DropdownButton,
 } from "react-bootstrap";
 import { truncateAddress, parseClaimGracePeriod } from "./utils";
-import { useAccount, chain } from "wagmi";
+import { useAccount } from "wagmi";
 import { formatEther } from "viem";
 import { AddClaimantModal } from "./AddClaimantModal";
 import { useState } from "react";
 
 export const HeirholdWallets = ({ wallets, setWallets, addNotification }) => {
-  /* global BigInt */
-
   const { address, chain } = useAccount();
   const [showAddClaimantModal, setShowAddClaimantModal] = useState();
 

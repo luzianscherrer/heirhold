@@ -14,9 +14,6 @@ import { heirholdFactoryConfig } from "./heirholdFactoryConfig";
 import Logo from "./logo.svg";
 import { heirholdWalletConfig } from "./heirholdWalletConfig";
 import { ImportHeirholdWallet } from "./ImportHeirholdWallet";
-import { truncateAddress } from "./utils";
-
-/* global BigInt */
 
 const queryClient = new QueryClient();
 
