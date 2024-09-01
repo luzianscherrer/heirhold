@@ -35,11 +35,9 @@ This is my contribution to the [ETHOnline 2024 Hackathon](https://ethglobal.com/
 
 The frontend can be accessed on GitHub Pages: https://luzianscherrer.github.io/heirhold/
 
-The protoype is deployed on [Rootstock Testnet](https://rootstock.io) and [Ethereum Sepolia](https://ethereum.org) to cover both bitcoin and ether holdings.
+The protoype is deployed on [Rootstock Testnet](https://rootstock.io).
 
 | Network           | Address | Description               |
 | ----------------- | ------- | ------------------------- |
-| Rootstock Testnet | 0x...   | Heirhold factory contract |
-| Rootstock Testnet | 0x...   | Heirhold example wallet   |
-| Ethereum Sepolia  | 0x...   | Heirhold factory contract |
-| Ethereum Sepolia  | 0x...   | Heirhold example wallet   |
+| Rootstock Testnet | 0xEf06B4970F659E8B5025Ec588241F703d2467605   | Heirhold factory contract |
+| Rootstock Testnet | 0x81947143dfab529ce9fe55c4297cd7bb90daaa78   | Heirhold example wallet   |
