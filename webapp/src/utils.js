@@ -4,13 +4,13 @@ export const truncateAddress = (address) => {
 };
 
 export const parseClaimGracePeriod = (seconds) => {
-  const value = Number(seconds) / (60 * 60);
-  if ((value / 24) % 365 === 0) {
-    const displayValue = value / (24 * 365);
+  const value = Number(seconds) / 60;
+  if ((value / (60 * 24)) % 365 === 0) {
+    const displayValue = value / (60 * 24 * 365);
     if (displayValue === 1) return `${displayValue} year`;
     else return `${displayValue} years`;
-  } else if (value % 24 === 0) {
-    const displayValue = value / 24;
+  } else if ((value / 60) % 24 === 0) {
+    const displayValue = value / (60 * 24);
     if (displayValue === 1) return `${displayValue} day`;
     else return `${displayValue} days`;
   } else {

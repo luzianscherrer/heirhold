@@ -6,6 +6,12 @@ dotenv.config();
 const config: HardhatUserConfig = {
   solidity: "0.8.19",
   networks: {
+    hardhat: {
+      mining: {
+        auto: false,
+        interval: 5000,
+      },
+    },
     localhost: {
       accounts: [process.env.DEVELOPMENT_KEY ?? "unknown"],
     },

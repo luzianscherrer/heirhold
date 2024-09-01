@@ -56,13 +56,13 @@ export const ChangeClaimGracePeriodModal = ({
 
   useEffect(() => {
     console.log(`set default to ${currentValueGracePeriod} for ${address}`);
-    const value = currentValueGracePeriod / (60 * 60);
-    if ((value / 24) % 365 === 0) {
+    const value = currentValueGracePeriod / 60;
+    if ((value / (60 * 24)) % 365 === 0) {
       setClaimGracePeriodUnit("Years");
-      setClaimGracePeriod(value / (24 * 365));
-    } else if (value % 24 === 0) {
+      setClaimGracePeriod(value / (60 * 24 * 365));
+    } else if ((value / 60) % 24 === 0) {
       setClaimGracePeriodUnit("Days");
-      setClaimGracePeriod(value / 24);
+      setClaimGracePeriod(value / (60 * 24));
     } else {
       setClaimGracePeriodUnit("Minutes");
       setClaimGracePeriod(value);

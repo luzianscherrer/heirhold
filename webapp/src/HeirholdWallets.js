@@ -44,10 +44,14 @@ export const HeirholdWallets = ({ wallets, setWallets, addNotification }) => {
   }, [hash, addNotification]);
 
   function claimIsUnlocked(wallet, claim) {
+    console.log(
+      "DEBUG",
+      claim.timestamp,
+      new Date(Number(claim.timestamp) * 1000)
+    );
     return (
-      new Date(
-        (Number(claim.timestamp) + Number(wallet.claimGracePeriod)) * 1000
-      ) < new Date()
+      Math.floor(new Date().getTime() / 1000) >=
+      Number(claim.timestamp) + Number(wallet.claimGracePeriod)
     );
   }
 
@@ -64,20 +68,57 @@ export const HeirholdWallets = ({ wallets, setWallets, addNotification }) => {
         ) {
           return (
             <Col className="text-end">
-              <Button variant="outline-danger">Execute claim</Button>
+              <Button
+                variant="outline-danger"
+                onClick={() => {
+                  console.log("execute claim", wallet.address);
+                  writeContract({
+                    address: wallet.address,
+                    abi: heirholdWalletConfig.abi,
+                    functionName: "executeClaimTransferOwnership",
+                  });
+                }}
+              >
+                Execute claim
+              </Button>
             </Col>
           );
         } else {
           return (
             <Col className="text-end">
-              <Button variant="outline-primary">Cancel claim</Button>
+              <Button
+                variant="outline-primary"
+                onClick={() => {
+                  console.log("claim", wallet.address);
+                  writeContract({
+                    address: wallet.address,
+                    abi: heirholdWalletConfig.abi,
+                    functionName: "removeClaim",
+                  });
+                }}
+              >
+                Cancel claim
+              </Button>
             </Col>
           );
         }
       } else {
         return (
           <Col className="text-end">
-            <Button variant="outline-primary">Claim</Button>
+            <Button
+              variant="outline-primary"
+              onClick={() => {
+                console.log("claim", wallet.address);
+                writeContract({
+                  address: wallet.address,
+                  abi: heirholdWalletConfig.abi,
+                  functionName: "createOrUpdateClaim",
+                  value: wallet.claimDepositFeeAmount,
+                });
+              }}
+            >
+              Claim
+            </Button>
           </Col>
         );
       }
@@ -225,6 +266,15 @@ export const HeirholdWallets = ({ wallets, setWallets, addNotification }) => {
                                       variant="outline-danger"
                                       size="sm"
                                       className="mt-1"
+                                      onClick={() => {
+                                        console.log("claim", wallet.address);
+                                        writeContract({
+                                          address: wallet.address,
+                                          abi: heirholdWalletConfig.abi,
+                                          functionName: "rejectClaim",
+                                          args: [claim.claimant],
+                                        });
+                                      }}
                                     >
                                       Reject this claim
                                     </Button>
