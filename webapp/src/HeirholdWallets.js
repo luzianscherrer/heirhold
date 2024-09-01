@@ -256,6 +256,9 @@ export const HeirholdWallets = ({ wallets }) => {
                         <Dropdown.Item as="button">
                           Add a new claimant
                         </Dropdown.Item>
+                        <Dropdown.Item as="button">
+                          Remove wallet from dashboard
+                        </Dropdown.Item>
                       </DropdownButton>
                     </Col>
                   ) : (

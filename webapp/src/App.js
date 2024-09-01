@@ -13,6 +13,7 @@ import { useState, useEffect } from "react";
 import { heirholdFactoryConfig } from "./heirholdFactoryConfig";
 import Logo from "./logo.svg";
 import { heirholdWalletConfig } from "./heirholdWalletConfig";
+import { ImportHeirholdWallet } from "./Import HeirholdWallet";
 
 /* global BigInt */
 
@@ -147,8 +148,16 @@ function MainContent() {
       <>
         <Row className="p-2">
           <Col></Col>
-          <Col lg={8}>
-            <CreateHeirholdWallet />
+          <Col lg={8} className="d-flex gap-2">
+            <CreateHeirholdWallet /> <ImportHeirholdWallet />
+            {/* <Row>
+              <Col xs="auto">
+                <CreateHeirholdWallet />
+              </Col>
+              <Col xs="auto">
+                <ImportHeirholdWallet />
+              </Col>
+            </Row> */}
           </Col>
           <Col></Col>
         </Row>
