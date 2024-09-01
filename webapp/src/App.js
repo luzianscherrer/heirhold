@@ -116,7 +116,7 @@ function MainContent() {
         newWallets[index] = wallet;
         console.log("update");
       } else {
-        newWallets.push(wallet);
+        newWallets.unshift(wallet);
         console.log("add");
       }
 
@@ -149,7 +149,8 @@ function MainContent() {
         <Row className="p-2">
           <Col></Col>
           <Col lg={8} className="d-flex gap-2">
-            <CreateHeirholdWallet /> <ImportHeirholdWallet />
+            <CreateHeirholdWallet />{" "}
+            <ImportHeirholdWallet readFullContract={readFullContract} />
           </Col>
           <Col></Col>
         </Row>

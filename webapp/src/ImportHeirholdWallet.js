@@ -1,7 +1,7 @@
 import { useState } from "react";
 import { Modal, Form, Button } from "react-bootstrap";
 
-export const ImportHeirholdWallet = () => {
+export const ImportHeirholdWallet = ({ readFullContract }) => {
   const defaultWalletAddress = "";
 
   const [show, setShow] = useState(false);
@@ -29,7 +29,7 @@ export const ImportHeirholdWallet = () => {
   };
   const handleSave = async () => {
     console.log(`import ${walletAddress}`);
-
+    readFullContract(walletAddress);
     handleClose();
   };
 
