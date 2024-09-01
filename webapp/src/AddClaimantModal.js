@@ -14,7 +14,7 @@ export const AddClaimantModal = ({
 
   const [walletAddress, setWalletAddress] = useState(defaultWalletAddress);
   const [validated, setValidated] = useState(false);
-  const { data: hash, isPending, writeContract } = useWriteContract();
+  const { data: hash, error, isPending, writeContract } = useWriteContract();
 
   const handleClose = useCallback(() => {
     setShowAddClaimantModal(false);
@@ -37,17 +37,19 @@ export const AddClaimantModal = ({
   const handleSave = async () => {
     console.log(`add ${walletAddress}`);
 
-    try {
-      writeContract({
-        address: address,
-        abi: heirholdWalletConfig.abi,
-        functionName: "addAllowedClaimant",
-        args: [walletAddress],
-      });
-    } catch (error) {
-      console.log(error);
-    }
+    writeContract({
+      address: address,
+      abi: heirholdWalletConfig.abi,
+      functionName: "addAllowedClaimant",
+      args: [walletAddress],
+    });
   };
+
+  useEffect(() => {
+    handleClose();
+
+    console.log(error);
+  }, [error, handleClose]);
 
   useEffect(() => {
     handleClose();
