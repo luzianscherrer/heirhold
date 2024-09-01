@@ -194,7 +194,11 @@ function MainContent({ notifications, setNotifications }) {
         <Row className="p-2">
           <Col></Col>
           <Col lg={8}>
-            <HeirholdWallets wallets={wallets} setWallets={setWallets} />
+            <HeirholdWallets
+              wallets={wallets}
+              setWallets={setWallets}
+              addNotification={addNotification}
+            />
           </Col>
           <Col></Col>
         </Row>
