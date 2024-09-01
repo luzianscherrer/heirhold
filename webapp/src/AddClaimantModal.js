@@ -48,7 +48,7 @@ export const AddClaimantModal = ({
   useEffect(() => {
     handleClose();
 
-    console.log(error);
+    if (error) console.log(error);
   }, [error, handleClose]);
 
   useEffect(() => {
