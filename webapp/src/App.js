@@ -14,6 +14,7 @@ import { heirholdFactoryConfig } from "./heirholdFactoryConfig";
 import Logo from "./logo.svg";
 import { heirholdWalletConfig } from "./heirholdWalletConfig";
 import { ImportHeirholdWallet } from "./ImportHeirholdWallet";
+import { truncateAddress } from "./utils";
 
 /* global BigInt */
 
@@ -27,9 +28,10 @@ function ConnectWallet() {
   return <WalletOptions />;
 }
 
-function MainContent() {
+function MainContent({ notifications, setNotifications }) {
   const { isConnected, address } = useAccount();
   const [wallets, setWallets] = useState([]);
+
   // const [wallets, setWallets] = useState([
   //   {
   //     address: "0x0095a405ca5277b9c27d7bfe0d5ce1f92515942f",
@@ -67,7 +69,14 @@ function MainContent() {
   //   },
   // ]);
 
-  const readFullContract = async (address) => {
+  const addNotification = (title, body) => {
+    setNotifications((prevNotifications) => [
+      ...prevNotifications,
+      { title, body, id: crypto.randomUUID() },
+    ]);
+  };
+
+  const readFullContract = async (address, reportError) => {
     console.log("read", address);
 
     const values = [
@@ -79,49 +88,60 @@ function MainContent() {
       "getClaims",
     ];
 
-    const result = await readContracts(config, {
-      contracts: values.map((value) => ({
-        abi: heirholdWalletConfig.abi,
+    try {
+      const result = await readContracts(config, {
+        allowFailure: false,
+        contracts: values.map((value) => ({
+          abi: heirholdWalletConfig.abi,
+          address: address,
+          functionName: value,
+        })),
+      });
+
+      console.log(result);
+      const [
+        owner,
+        balance,
+        claimGracePeriod,
+        claimDepositFeeAmount,
+        allowedClaimants,
+        claims,
+      ] = result;
+
+      const wallet = {
         address: address,
-        functionName: value,
-      })),
-    });
+        owner: owner,
+        balance: balance,
+        claimGracePeriod: claimGracePeriod,
+        claimDepositFeeAmount: claimDepositFeeAmount,
+        allowedClaimants: allowedClaimants,
+        claims: claims,
+      };
 
-    console.log(result);
-    const [
-      owner,
-      balance,
-      claimGracePeriod,
-      claimDepositFeeAmount,
-      allowedClaimants,
-      claims,
-    ] = result;
+      setWallets((wallets) => {
+        let newWallets = structuredClone(wallets);
+        const index = newWallets.findIndex(
+          (obj) => obj.address === wallet.address
+        );
+        if (index !== -1) {
+          newWallets[index] = wallet;
+          console.log("update", wallet);
+        } else {
+          newWallets.unshift(wallet);
+          console.log("add", wallet);
+        }
 
-    const wallet = {
-      address: address,
-      owner: owner.result,
-      balance: balance.result,
-      claimGracePeriod: claimGracePeriod.result,
-      claimDepositFeeAmount: claimDepositFeeAmount.result,
-      allowedClaimants: allowedClaimants.result,
-      claims: claims.result,
-    };
-
-    setWallets((wallets) => {
-      let newWallets = structuredClone(wallets);
-      const index = newWallets.findIndex(
-        (obj) => obj.address === wallet.address
-      );
-      if (index !== -1) {
-        newWallets[index] = wallet;
-        console.log("update");
-      } else {
-        newWallets.unshift(wallet);
-        console.log("add");
+        return newWallets;
+      });
+    } catch (error) {
+      console.log("Error reading contract data", error);
+      if (reportError) {
+        addNotification(
+          "Import failed",
+          `The wallet ${address} could not be imported into your dashboard. Is it a valid Heirhold wallet?`
+        );
       }
-
-      return newWallets;
-    });
+    }
   };
 
   useEffect(() => {
@@ -134,7 +154,7 @@ function MainContent() {
       onLogs(logs) {
         console.log("logs", logs);
         console.log(`new wallet ${logs[0].args.walletAddress}`);
-        readFullContract(logs[0].args.walletAddress);
+        readFullContract(logs[0].args.walletAddress, false);
       },
     });
     return () => {
@@ -149,7 +169,7 @@ function MainContent() {
         <Row className="p-2">
           <Col></Col>
           <Col lg={8} className="d-flex gap-2">
-            <CreateHeirholdWallet />{" "}
+            <CreateHeirholdWallet addNotification={addNotification} />{" "}
             <ImportHeirholdWallet readFullContract={readFullContract} />
           </Col>
           <Col></Col>
@@ -166,10 +186,15 @@ function MainContent() {
 }
 
 function App() {
+  const [notifications, setNotifications] = useState([]);
+
   return (
     <WagmiProvider config={config}>
       <QueryClientProvider client={queryClient}>
-        <Notifications />
+        <Notifications
+          notifications={notifications}
+          setNotifications={setNotifications}
+        />
         <Container fluid>
           <Row className="p-2">
             <ConnectWallet />
@@ -184,7 +209,10 @@ function App() {
             </Col>
             <Col></Col>
           </Row>
-          <MainContent />
+          <MainContent
+            notifications={notifications}
+            setNotifications={setNotifications}
+          />
         </Container>
       </QueryClientProvider>
     </WagmiProvider>

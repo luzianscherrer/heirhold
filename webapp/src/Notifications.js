@@ -6,16 +6,9 @@ import { config } from "./config";
 import { getBalance } from "@wagmi/core";
 import { useAccount, useBlockNumber } from "wagmi";
 
-export function Notifications() {
-  const [notifications, setNotifications] = useState([]);
+export function Notifications({ notifications, setNotifications }) {
   const { address } = useAccount();
 
-  const addNotification = (title, body) => {
-    setNotifications((prevNotifications) => [
-      ...prevNotifications,
-      { title, body, id: crypto.randomUUID() },
-    ]);
-  };
   //   const removeNotification = (id) => {
   //     setNotifications((prevNotifications) =>
   //       prevNotifications.filter((n) => n.id !== id)
@@ -56,7 +49,7 @@ export function Notifications() {
     <ToastContainer className="p-3" position="top-end" style={{ zIndex: 1 }}>
       {notifications.map((notification) => (
         <Toast
-          bg="light"
+          bg="secondary"
           key={notification.id}
           onClose={() => {
             setNotifications(
@@ -64,10 +57,14 @@ export function Notifications() {
             );
           }}
         >
-          <Toast.Header closeButton={true}>
-            <strong className="me-auto">{notification.title}</strong>
+          <Toast.Header closeButton={true} style={{ background: "#eeeeee" }}>
+            <strong className="me-auto">
+              {notification.title.toUpperCase()}
+            </strong>
           </Toast.Header>
-          <Toast.Body>{notification.body}</Toast.Body>
+          <Toast.Body style={{ background: "#fafafa" }}>
+            {notification.body}
+          </Toast.Body>
         </Toast>
       ))}
     </ToastContainer>

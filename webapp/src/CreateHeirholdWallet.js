@@ -4,7 +4,7 @@ import { useAccount, useWriteContract } from "wagmi";
 import { heirholdFactoryConfig } from "./heirholdFactoryConfig";
 import { parseEther } from "viem";
 
-export const CreateHeirholdWallet = () => {
+export const CreateHeirholdWallet = ({ addNotification }) => {
   /* global BigInt */
 
   const defaultClaimGracePeriod = "365";
@@ -81,6 +81,13 @@ export const CreateHeirholdWallet = () => {
 
   useEffect(() => {
     handleClose();
+
+    if (hash) {
+      addNotification(
+        "Transaction submitted",
+        `The wallet is being created in transaction ${hash}. It will appear in your dashboard once confirmed.`
+      );
+    }
   }, [hash]);
 
   return (

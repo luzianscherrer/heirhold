@@ -29,7 +29,7 @@ export const ImportHeirholdWallet = ({ readFullContract }) => {
   };
   const handleSave = async () => {
     console.log(`import ${walletAddress}`);
-    readFullContract(walletAddress);
+    readFullContract(walletAddress, true);
     handleClose();
   };
 
