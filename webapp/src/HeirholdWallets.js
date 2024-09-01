@@ -12,6 +12,7 @@ import { truncateAddress, parseClaimGracePeriod } from "./utils";
 import { useAccount } from "wagmi";
 import { formatEther } from "viem";
 import { AddClaimantModal } from "./AddClaimantModal";
+import { ChangeClaimGracePeriodModal } from "./ChangeClaimGracePeriodModal";
 import { TopUpModal } from "./TopUpModal";
 import { WithdrawModal } from "./WithdrawModal";
 import { useState, useEffect } from "react";
@@ -20,9 +21,13 @@ import { heirholdWalletConfig } from "./heirholdWalletConfig";
 
 export const HeirholdWallets = ({ wallets, setWallets, addNotification }) => {
   const { address, chain } = useAccount();
+  const [modalAddress, setModalAddress] = useState("");
   const [showAddClaimantModal, setShowAddClaimantModal] = useState();
+  const [modalClaimGracePeriod, setModalClaimGracePeriod] = useState(0);
   const [showTopUpModal, setShowTopUpModal] = useState();
   const [showWithdrawModal, setShowWithdrawModal] = useState();
+  const [showChangeClaimGracePeriodModal, setShowChangeClaimGracePeriodModal] =
+    useState();
   const { data: hash, writeContract } = useWriteContract();
 
   useEffect(() => {
@@ -250,14 +255,20 @@ export const HeirholdWallets = ({ wallets, setWallets, addNotification }) => {
                         <Col className="text-end">
                           <Button
                             variant="outline-primary"
-                            onClick={() => setShowTopUpModal(true)}
+                            onClick={() => {
+                              setModalAddress(wallet.address);
+                              setShowTopUpModal(true);
+                            }}
                           >
                             Top-up
                           </Button>
                           <Button
                             variant="outline-primary"
                             className="ms-2"
-                            onClick={() => setShowWithdrawModal(true)}
+                            onClick={() => {
+                              setModalAddress(wallet.address);
+                              setShowWithdrawModal(true);
+                            }}
                             disabled={wallet.balance === 0n.valueOf()}
                           >
                             Withdraw
@@ -267,7 +278,16 @@ export const HeirholdWallets = ({ wallets, setWallets, addNotification }) => {
                             className="ms-2 d-inline-block"
                             title="Edit"
                           >
-                            <Dropdown.Item as="button">
+                            <Dropdown.Item
+                              as="button"
+                              onClick={() => {
+                                setModalAddress(wallet.address);
+                                setModalClaimGracePeriod(
+                                  Number(wallet.claimGracePeriod)
+                                );
+                                setShowChangeClaimGracePeriodModal(true);
+                              }}
+                            >
                               Change claim grace period
                             </Dropdown.Item>
                             <Dropdown.Item as="button">
@@ -294,7 +314,10 @@ export const HeirholdWallets = ({ wallets, setWallets, addNotification }) => {
                             })}
                             <Dropdown.Item
                               as="button"
-                              onClick={() => setShowAddClaimantModal(true)}
+                              onClick={() => {
+                                setModalAddress(wallet.address);
+                                setShowAddClaimantModal(true);
+                              }}
                             >
                               Add a new claimant
                             </Dropdown.Item>
@@ -323,22 +346,34 @@ export const HeirholdWallets = ({ wallets, setWallets, addNotification }) => {
               <AddClaimantModal
                 showAddClaimantModal={showAddClaimantModal}
                 setShowAddClaimantModal={setShowAddClaimantModal}
-                address={wallet.address}
+                address={modalAddress}
                 addNotification={addNotification}
               />
 
               <TopUpModal
                 showTopUpModal={showTopUpModal}
                 setShowTopUpModal={setShowTopUpModal}
-                address={wallet.address}
+                address={modalAddress}
                 addNotification={addNotification}
               />
 
               <WithdrawModal
                 showWithdrawModal={showWithdrawModal}
                 setShowWithdrawModal={setShowWithdrawModal}
-                address={wallet.address}
+                address={modalAddress}
                 addNotification={addNotification}
+              />
+
+              <ChangeClaimGracePeriodModal
+                showChangeClaimGracePeriodModal={
+                  showChangeClaimGracePeriodModal
+                }
+                setShowChangeClaimGracePeriodModal={
+                  setShowChangeClaimGracePeriodModal
+                }
+                address={modalAddress}
+                addNotification={addNotification}
+                currentValueGracePeriod={modalClaimGracePeriod}
               />
             </div>
           );

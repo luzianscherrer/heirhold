@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useEffect, useState, useCallback } from "react";
 import { Modal, Form, Button, InputGroup, Dropdown } from "react-bootstrap";
 import { useAccount, useWriteContract } from "wagmi";
 import { heirholdFactoryConfig } from "./heirholdFactoryConfig";
@@ -27,7 +27,10 @@ export const CreateHeirholdWallet = ({ addNotification }) => {
   const [depositAmount, setDepositAmount] = useState(defaultDepositAmount);
   const [validated, setValidated] = useState(false);
 
-  const handleClose = () => setShow(false);
+  const handleClose = useCallback(() => {
+    setShow(false);
+    setValidated(false);
+  }, [setShow]);
   const handleShow = () => {
     setClaimGracePeriod(defaultClaimGracePeriod);
     setClaimGracePeriodUnit(defaultClaimGracePeriodUnit);
@@ -64,7 +67,7 @@ export const CreateHeirholdWallet = ({ addNotification }) => {
       Minutes: 60,
     };
     const claimGracePeriodSeconds =
-      claimGracePeriod * (unitMultipliers[defaultClaimGracePeriodUnit] || 1);
+      claimGracePeriod * (unitMultipliers[claimGracePeriodUnit] || 1);
 
     writeContract({
       address: heirholdFactoryConfig.address,
@@ -88,7 +91,7 @@ export const CreateHeirholdWallet = ({ addNotification }) => {
         `The wallet is being created in transaction ${hash}. It will appear in your dashboard once confirmed.`
       );
     }
-  }, [hash]);
+  }, [hash, addNotification, handleClose]);
 
   return (
     <>
