@@ -13,6 +13,7 @@ import { useAccount } from "wagmi";
 import { formatEther } from "viem";
 import { AddClaimantModal } from "./AddClaimantModal";
 import { TopUpModal } from "./TopUpModal";
+import { WithdrawModal } from "./WithdrawModal";
 import { useState, useEffect } from "react";
 import { useWriteContract } from "wagmi";
 import { heirholdWalletConfig } from "./heirholdWalletConfig";
@@ -21,6 +22,7 @@ export const HeirholdWallets = ({ wallets, setWallets, addNotification }) => {
   const { address, chain } = useAccount();
   const [showAddClaimantModal, setShowAddClaimantModal] = useState();
   const [showTopUpModal, setShowTopUpModal] = useState();
+  const [showWithdrawModal, setShowWithdrawModal] = useState();
   const { data: hash, writeContract } = useWriteContract();
 
   useEffect(() => {
@@ -255,6 +257,7 @@ export const HeirholdWallets = ({ wallets, setWallets, addNotification }) => {
                           <Button
                             variant="outline-primary"
                             className="ms-2"
+                            onClick={() => setShowWithdrawModal(true)}
                             disabled={wallet.balance === 0n.valueOf()}
                           >
                             Withdraw
@@ -327,6 +330,13 @@ export const HeirholdWallets = ({ wallets, setWallets, addNotification }) => {
               <TopUpModal
                 showTopUpModal={showTopUpModal}
                 setShowTopUpModal={setShowTopUpModal}
+                address={wallet.address}
+                addNotification={addNotification}
+              />
+
+              <WithdrawModal
+                showWithdrawModal={showWithdrawModal}
+                setShowWithdrawModal={setShowWithdrawModal}
                 address={wallet.address}
                 addNotification={addNotification}
               />

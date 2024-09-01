@@ -51,7 +51,7 @@ contract HeirholdWallet {
 
     function withdraw(uint256 amount) external onlyOwner {
         require(address(this).balance >= amount, "Insufficient balance");
-        owner.transfer(address(this).balance);
+        payable(owner).transfer(amount);
 
         emit HeirholdWalletBalanceChange(address(this).balance);
     }
