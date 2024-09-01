@@ -131,6 +131,11 @@ function MainContent({ notifications, setNotifications }) {
           console.log("add", wallet);
         }
 
+        localStorage.setItem(
+          "wallets",
+          JSON.stringify(newWallets.map((w) => w.address))
+        );
+
         return newWallets;
       });
     } catch (error) {
@@ -143,6 +148,14 @@ function MainContent({ notifications, setNotifications }) {
       }
     }
   };
+
+  useEffect(() => {
+    const wallets = JSON.parse(localStorage.getItem("wallets") || "[]");
+    console.log("load storage wallets", wallets);
+    wallets.forEach((wallet) => {
+      readFullContract(wallet, false);
+    });
+  }, []);
 
   useEffect(() => {
     console.log("watch CreateHeirholdWallet");
