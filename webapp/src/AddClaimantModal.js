@@ -1,5 +1,5 @@
 import { Modal, Form, Button } from "react-bootstrap";
-import { useState, useEffect } from "react";
+import { useState, useEffect, useCallback } from "react";
 import { truncateAddress } from "./utils";
 import { useWriteContract } from "wagmi";
 import { heirholdWalletConfig } from "./heirholdWalletConfig";
@@ -16,11 +16,11 @@ export const AddClaimantModal = ({
   const [validated, setValidated] = useState(false);
   const { data: hash, isPending, writeContract } = useWriteContract();
 
-  const handleClose = () => {
+  const handleClose = useCallback(() => {
     setShowAddClaimantModal(false);
     setWalletAddress(defaultWalletAddress);
     setValidated(false);
-  };
+  }, [setShowAddClaimantModal]);
   const handleSubmit = (event) => {
     console.log("handleSubmit");
     const form = event.currentTarget;
@@ -37,12 +37,16 @@ export const AddClaimantModal = ({
   const handleSave = async () => {
     console.log(`add ${walletAddress}`);
 
-    writeContract({
-      address: address,
-      abi: heirholdWalletConfig.abi,
-      functionName: "addAllowedClaimant",
-      args: [walletAddress],
-    });
+    try {
+      writeContract({
+        address: address,
+        abi: heirholdWalletConfig.abi,
+        functionName: "addAllowedClaimant",
+        args: [walletAddress],
+      });
+    } catch (error) {
+      console.log(error);
+    }
   };
 
   useEffect(() => {
@@ -54,7 +58,7 @@ export const AddClaimantModal = ({
         `The wallet is being updated in transaction ${hash}. The change will appear in your dashboard once confirmed.`
       );
     }
-  }, [hash]);
+  }, [hash, addNotification, handleClose]);
 
   return (
     <Modal show={showAddClaimantModal} onHide={handleClose}>

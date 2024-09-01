@@ -12,11 +12,23 @@ import { truncateAddress, parseClaimGracePeriod } from "./utils";
 import { useAccount } from "wagmi";
 import { formatEther } from "viem";
 import { AddClaimantModal } from "./AddClaimantModal";
-import { useState } from "react";
+import { useState, useEffect } from "react";
+import { useWriteContract } from "wagmi";
+import { heirholdWalletConfig } from "./heirholdWalletConfig";
 
 export const HeirholdWallets = ({ wallets, setWallets, addNotification }) => {
   const { address, chain } = useAccount();
   const [showAddClaimantModal, setShowAddClaimantModal] = useState();
+  const { data: hash, writeContract } = useWriteContract();
+
+  useEffect(() => {
+    if (hash) {
+      addNotification(
+        "Transaction submitted",
+        `The wallet is being updated in transaction ${hash}. The change will appear in your dashboard once confirmed.`
+      );
+    }
+  }, [hash, addNotification]);
 
   function claimIsUnlocked(wallet, claim) {
     return (
@@ -253,7 +265,19 @@ export const HeirholdWallets = ({ wallets, setWallets, addNotification }) => {
                             </Dropdown.Item>
                             {wallet.allowedClaimants.map((claimant) => {
                               return (
-                                <Dropdown.Item as="button" key={claimant}>
+                                <Dropdown.Item
+                                  as="button"
+                                  key={claimant}
+                                  onClick={() => {
+                                    console.log("remove", claimant);
+                                    writeContract({
+                                      address: wallet.address,
+                                      abi: heirholdWalletConfig.abi,
+                                      functionName: "removeAllowedClaimant",
+                                      args: [claimant],
+                                    });
+                                  }}
+                                >
                                   Remove claimant {truncateAddress(claimant)}
                                 </Dropdown.Item>
                               );
