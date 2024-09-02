@@ -41,7 +41,7 @@ The contracts are deployed on [Rootstock Testnet](https://rootstock.io):
 
 | Address                                                                                                                                         | Description               |
 | ----------------------------------------------------------------------------------------------------------------------------------------------- | ------------------------- |
-| [<tt>0xEf06B4970F659E8B5025Ec588241F703d2467605</tt>](https://explorer.testnet.rootstock.io/address/0xef06b4970f659e8b5025ec588241f703d2467605) | Heirhold factory contract |
+| [<tt>0xEf06B4970F659E8B5025Ec588241F703d2467605</tt>](https://explorer.testnet.rootstock.io/address/0xef06b4970f659e8b5025ec588241f703d2467605?__ctab=Code) | Heirhold factory contract |
 | [<tt>0x81947143dfab529ce9fe55c4297cd7bb90daaa78</tt>](https://explorer.testnet.rootstock.io/address/0x81947143dfab529ce9fe55c4297cd7bb90daaa78) | Heirhold example wallet   |
 
 ## Screenshots
