@@ -287,7 +287,9 @@ function MainContent({ notifications, setNotifications }) {
 
   useEffect(() => {
     const unwatches = wallets.map((wallet) => {
-      console.log(`watch HeirholdWalletTransferOwnership ${wallet.address}`);
+      console.log(
+        `watch HeirholdWalletExecuteClaimTransferOwnership ${wallet.address}`
+      );
       return watchContractEvent(config, {
         address: wallet.address,
         abi: heirholdWalletConfig.abi,
