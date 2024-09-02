@@ -1,7 +1,7 @@
 {
   "files": {
     "main.css": "/heirhold/static/css/main.ed5c64fc.css",
-    "main.js": "/heirhold/static/js/main.53018c8f.js",
+    "main.js": "/heirhold/static/js/main.ce303136.js",
     "static/js/825.7e4ae626.chunk.js": "/heirhold/static/js/825.7e4ae626.chunk.js",
     "static/js/259.7c44a3d1.chunk.js": "/heirhold/static/js/259.7c44a3d1.chunk.js",
     "static/js/206.1b29e3ba.chunk.js": "/heirhold/static/js/206.1b29e3ba.chunk.js",
@@ -10,6 +10,6 @@
   },
   "entrypoints": [
     "static/css/main.ed5c64fc.css",
-    "static/js/main.53018c8f.js"
+    "static/js/main.ce303136.js"
   ]
 }
