@@ -46,10 +46,16 @@ The contracts are deployed on [Rootstock Testnet](https://rootstock.io):
 
 ## Screenshots
 
-![Heirhold screenshot 01](/assets/screenshots/screenshot_01.png?raw=true "Heirhold wallet with an unlocked claim that can be executed")
+![Heirhold screenshot 01](/assets/screenshots/screenshot_01.png?raw=true)
 
-_Heirhold wallet with an unlocked claim that can be executed._
+![Heirhold screenshot 02](/assets/screenshots/screenshot_02.png?raw=true)
 
-![Heirhold screenshot 02](/assets/screenshots/screenshot_02.png?raw=true "An own Heirhold wallet with a pending claim that can be rejected")
+![Heirhold screenshot 03](/assets/screenshots/screenshot_03.png?raw=true)
 
-_An own Heirhold wallet with a pending claim that can be rejected._
+![Heirhold screenshot 04](/assets/screenshots/screenshot_04.png?raw=true)
+
+![Heirhold screenshot 05](/assets/screenshots/screenshot_05.png?raw=true)
+
+![Heirhold screenshot 06](/assets/screenshots/screenshot_06.png?raw=true)
+
+![Heirhold screenshot 07](/assets/screenshots/screenshot_07.png?raw=true)
