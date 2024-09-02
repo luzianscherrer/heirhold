@@ -205,7 +205,9 @@ export const HeirholdWallets = ({ wallets, setWallets, addNotification }) => {
                             {(+formatEther(
                               wallet.claimDepositFeeAmount
                             )).toFixed(4)}{" "}
-                            {chain.nativeCurrency.symbol}
+                            {window.globalData.demoMode
+                              ? window.globalData.demoNativeCurrency
+                              : chain.nativeCurrency.symbol}
                           </div>
                         </td>
                       </tr>
@@ -304,7 +306,9 @@ export const HeirholdWallets = ({ wallets, setWallets, addNotification }) => {
                         Balance:{" "}
                         <strong className="ms-2">
                           {(+formatEther(wallet.balance)).toFixed(4)}{" "}
-                          {chain.nativeCurrency.symbol}
+                          {window.globalData.demoMode
+                            ? window.globalData.demoNativeCurrency
+                            : chain.nativeCurrency.symbol}
                         </strong>
                       </Col>
                       {wallet.owner === address ? (

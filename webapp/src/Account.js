@@ -17,7 +17,11 @@ export function Account() {
           {address && (
             <div>
               Connected to <strong>{truncateAddress(address)}</strong> on{" "}
-              {chain ? chain.name : "unknown"}
+              {window.globalData.demoMode
+                ? window.globalData.demoNetworkName
+                : chain
+                ? chain.name
+                : "unknown"}
             </div>
           )}
         </Col>

@@ -89,7 +89,9 @@ export const TopUpModal = ({
                 onChange={handleAmountChange}
               />
               <InputGroup.Text id="inputGroupPostpend">
-                {chain.nativeCurrency.symbol}
+                {window.globalData.demoMode
+                  ? window.globalData.demoNativeCurrency
+                  : chain.nativeCurrency.symbol}
               </InputGroup.Text>
             </InputGroup>
           </Form.Group>

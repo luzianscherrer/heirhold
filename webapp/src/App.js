@@ -20,6 +20,12 @@ const timers = [];
 
 document.body.style = "background: #fbfbfb;";
 
+window.globalData = {
+  demoMode: false,
+  demoNativeCurrency: "RBTC",
+  demoNetworkName: "Rootstock",
+};
+
 function ConnectWallet() {
   const { isConnected } = useAccount();
   if (isConnected) return <Account />;
