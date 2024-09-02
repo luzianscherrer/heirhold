@@ -120,13 +120,20 @@ export const HeirholdWallets = ({ wallets, setWallets, addNotification }) => {
     }
     return (
       <Col className="text-end">
-        <Button
+        <DropdownButton
           variant="outline-primary"
-          style={{ visibility: "hidden" }}
-          disabled
+          className="ms-2 d-inline-block"
+          title="Edit"
         >
-          Claim
-        </Button>
+          <Dropdown.Item
+            as="button"
+            onClick={() => {
+              setWallets(wallets.filter((w) => w.address !== wallet.address));
+            }}
+          >
+            Remove wallet from dashboard
+          </Dropdown.Item>
+        </DropdownButton>
       </Col>
     );
   }
