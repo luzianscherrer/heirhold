@@ -16,6 +16,7 @@ import { heirholdWalletConfig } from "./heirholdWalletConfig";
 import { ImportHeirholdWallet } from "./ImportHeirholdWallet";
 
 const queryClient = new QueryClient();
+const timers = [];
 
 document.body.style = "background: #fbfbfb;";
 
@@ -308,6 +309,35 @@ function MainContent({ notifications, setNotifications }) {
       });
     };
   }, [wallets, readFullContract]);
+
+  useEffect(() => {
+    console.log("wallets changed, check for timebased refreshes");
+    console.log("current timers: ", timers);
+    timers.forEach(clearTimeout);
+    timers.length = 0;
+
+    for (const wallet of wallets) {
+      for (const claim of wallet.claims) {
+        const unlockTimestamp =
+          Number(claim.timestamp) + Number(wallet.claimGracePeriod);
+        const nowTimestamp = Math.floor(new Date().getTime() / 1000);
+        console.log("unlock", new Date(unlockTimestamp * 1000));
+        console.log("now", new Date(nowTimestamp * 1000));
+        if (unlockTimestamp > nowTimestamp) {
+          console.log(
+            "establish timer for",
+            new Date((unlockTimestamp + 1) * 1000)
+          );
+          timers.push(
+            setTimeout(() => {
+              console.log("timer trigger");
+              setWallets(structuredClone(wallets));
+            }, (unlockTimestamp - nowTimestamp + 1) * 1000)
+          );
+        }
+      }
+    }
+  }, [wallets]);
 
   if (isConnected)
     return (
