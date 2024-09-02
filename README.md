@@ -43,3 +43,13 @@ The contracts are deployed on [Rootstock Testnet](https://rootstock.io):
 | ----------------------------------------------------------------------------------------------------------------------------------------------- | ------------------------- |
 | [<tt>0xEf06B4970F659E8B5025Ec588241F703d2467605</tt>](https://explorer.testnet.rootstock.io/address/0xef06b4970f659e8b5025ec588241f703d2467605) | Heirhold factory contract |
 | [<tt>0x81947143dfab529ce9fe55c4297cd7bb90daaa78</tt>](https://explorer.testnet.rootstock.io/address/0x81947143dfab529ce9fe55c4297cd7bb90daaa78) | Heirhold example wallet   |
+
+## Screenshots
+
+![Heirhold screenshot 01](/assets/screenshots/screenshot_01.png?raw=true "Heirhold wallet with an unlocked claim that can be executed")
+
+_Heirhold wallet with an unlocked claim that can be executed._
+
+![Heirhold screenshot 02](/assets/screenshots/screenshot_02.png?raw=true "An own Heirhold wallet with a pending claim that can be rejected")
+
+_An own Heirhold wallet with a pending claim that can be rejected._
