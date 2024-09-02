@@ -291,7 +291,7 @@ function MainContent({ notifications, setNotifications }) {
       return watchContractEvent(config, {
         address: wallet.address,
         abi: heirholdWalletConfig.abi,
-        eventName: "HeirholdWalletTransferOwnership",
+        eventName: "HeirholdWalletExecuteClaimTransferOwnership",
         onLogs(logs) {
           console.log("logs", logs);
           readFullContract(wallet.address, false);
