@@ -10,9 +10,9 @@ It is a well-known fact that a considerable amount of cryptocurrency holdings ar
 
 Heirhold is a smart wallet solution that addresses this problem by implementing a secure, time-locked recovery mechanism.
 
-A Heirhold wallet owner designates a list of authorized heirs and defines a claim grace period and claim fee. At any time, these heirs can make a claim for ownership of the wallet. Such a claim is legitimate if the owner has passed away or lost access to the private key. In that case, the claimant will assume ownership once the claim grace period has elapsed. The claim fee, which acts as a deterrent against misuse, is fully refunded.
+A Heirhold wallet owner designates a list of authorized claimants and defines a claim grace period and claim fee. At any time, the authorized claimants can make a claim for ownership of the wallet. Such a claim is usually considered legitimate if the owner has passed away or lost access to the private key. In that case, the claimant will assume ownership once the claim grace period has elapsed. The claim fee, which acts as a deterrent against misuse, is fully refunded to the claimant.
 
-It is the owner's responsibility to periodically check their Heirhold wallet for claims. The suggested default claim grace period is one year, so owners should check their wallet annually to reject any unwanted claims. If an owner rejects a claim, they retain the claim fee.
+It is the owner's responsibility to periodically check their Heirhold wallet for claims. The suggested default claim grace period is one year, so owners should check their wallet annually to reject any unwanted claims. If an owner rejects a claim, they retain the claim fee payed by the claimant.
 
 All steps of the process are enforced by a smart contract, ensuring secure and verifiable proceedings.
 
@@ -35,9 +35,9 @@ This is my contribution to the [ETHOnline 2024 Hackathon](https://ethglobal.com/
 
 The frontend can be accessed on GitHub Pages: https://luzianscherrer.github.io/heirhold/
 
-The protoype is deployed on [Rootstock Testnet](https://rootstock.io).
+The contracts are deployed on [Rootstock Testnet](https://rootstock.io):
 
-| Network           | Address | Description               |
-| ----------------- | ------- | ------------------------- |
-| Rootstock Testnet | 0xEf06B4970F659E8B5025Ec588241F703d2467605   | Heirhold factory contract |
-| Rootstock Testnet | 0x81947143dfab529ce9fe55c4297cd7bb90daaa78   | Heirhold example wallet   |
+| Address                                                                                                                                         | Description               |
+| ----------------------------------------------------------------------------------------------------------------------------------------------- | ------------------------- |
+| [<tt>0xEf06B4970F659E8B5025Ec588241F703d2467605</tt>](https://explorer.testnet.rootstock.io/address/0xef06b4970f659e8b5025ec588241f703d2467605) | Heirhold factory contract |
+| [<tt>0x81947143dfab529ce9fe55c4297cd7bb90daaa78</tt>](https://explorer.testnet.rootstock.io/address/0x81947143dfab529ce9fe55c4297cd7bb90daaa78) | Heirhold example wallet   |
