@@ -9,7 +9,7 @@ npx hardhat node --fork $ROOTSTOCK_URL
 
 ```
 source .env
-npx hardhat node --fork $EPOLIA_URL
+npx hardhat node --fork $SEPOLIA_URL
 ```
 
 ### Deploy Contracts
