@@ -44,11 +44,6 @@ export const HeirholdWallets = ({ wallets, setWallets, addNotification }) => {
   }, [hash, addNotification]);
 
   function claimIsUnlocked(wallet, claim) {
-    console.log(
-      "DEBUG",
-      claim.timestamp,
-      new Date(Number(claim.timestamp) * 1000)
-    );
     return (
       Math.floor(new Date().getTime() / 1000) >=
       Number(claim.timestamp) + Number(wallet.claimGracePeriod)
