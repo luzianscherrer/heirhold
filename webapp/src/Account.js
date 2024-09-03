@@ -21,7 +21,7 @@ export function Account() {
                 ? window.globalData.demoNetworkName
                 : chain
                 ? chain.name
-                : "unknown"}
+                : "an unsupported chain"}
             </div>
           )}
         </Col>

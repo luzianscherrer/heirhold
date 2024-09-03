@@ -1,5 +1,5 @@
 import "./App.css";
-import { Container, Row, Col } from "react-bootstrap";
+import { Container, Row, Col, Alert } from "react-bootstrap";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { WagmiProvider, useAccount } from "wagmi";
 import { watchContractEvent, readContracts } from "@wagmi/core";
@@ -33,7 +33,7 @@ function ConnectWallet() {
 }
 
 function MainContent({ notifications, setNotifications }) {
-  const { isConnected, address } = useAccount();
+  const { isConnected, address, chain } = useAccount();
   const [wallets, setWallets] = useState([]);
   const initialized = useRef(false);
 
@@ -346,29 +346,60 @@ function MainContent({ notifications, setNotifications }) {
   }, [wallets]);
 
   if (isConnected)
-    return (
-      <>
-        <Row className="p-2">
-          <Col></Col>
-          <Col lg={8} className="d-flex gap-2">
-            <CreateHeirholdWallet addNotification={addNotification} />{" "}
-            <ImportHeirholdWallet readFullContract={readFullContract} />
-          </Col>
-          <Col></Col>
-        </Row>
-        <Row className="p-2">
-          <Col></Col>
-          <Col lg={8}>
-            <HeirholdWallets
-              wallets={wallets}
-              setWallets={setWallets}
-              addNotification={addNotification}
-            />
-          </Col>
-          <Col></Col>
-        </Row>
-      </>
-    );
+    if (chain && chain.id)
+      return (
+        <>
+          <Row className="p-2">
+            <Col></Col>
+            <Col lg={8} className="d-flex gap-2">
+              <CreateHeirholdWallet addNotification={addNotification} />{" "}
+              <ImportHeirholdWallet readFullContract={readFullContract} />
+            </Col>
+            <Col></Col>
+          </Row>
+          <Row className="p-2">
+            <Col></Col>
+            <Col lg={8}>
+              <HeirholdWallets
+                wallets={wallets}
+                setWallets={setWallets}
+                addNotification={addNotification}
+              />
+            </Col>
+            <Col></Col>
+          </Row>
+        </>
+      );
+    else
+      return (
+        <>
+          <Row className="p-2">
+            <Col></Col>
+            <Col lg={8} className="d-flex gap-2">
+              <Alert variant="danger">
+                <Alert.Heading>Unsupported chain</Alert.Heading>
+                You are connected to an unsupported chain. Heirhold is currently
+                only available on{" "}
+                <Alert.Link
+                  target="_blank"
+                  href="https://dev.rootstock.io/dev-tools/wallets/metamask/"
+                >
+                  Rootstock Testnet
+                </Alert.Link>{" "}
+                and{" "}
+                <Alert.Link
+                  target="_blank"
+                  href="https://chainlist.org/chain/11155111"
+                >
+                  Ethereum Sepolia
+                </Alert.Link>
+                .
+              </Alert>
+            </Col>
+            <Col></Col>
+          </Row>
+        </>
+      );
 }
 
 function App() {
