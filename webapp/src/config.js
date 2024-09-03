@@ -6,7 +6,9 @@ export const config = createConfig({
   chains: [rootstockTestnet, sepolia, hardhat],
   connectors: [injected()],
   transports: {
-    [rootstockTestnet.id]: http(),
+    [rootstockTestnet.id]: http(
+      `https://rpc.testnet.rootstock.io/${process.env.REACT_APP_ROOTSTOCK_TESTNET_APIKEY}`
+    ),
     [sepolia.id]: http(),
     [hardhat.id]: http(),
   },
