@@ -35,9 +35,9 @@ This is my contribution to the [ETHOnline 2024 Hackathon](https://ethglobal.com/
 
 The frontend can be accessed on GitHub Pages: https://luzianscherrer.github.io/heirhold/
 
-You might want to head over to the [Rootstock Testnet Faucet](https://faucet.rootstock.io) to get some tRBTC for testing.
+The contracts are deployed on [Rootstock Testnet](https://rootstock.io) and [Ethereum Sepolia](https://chainlist.org/chain/11155111) to cover both bitcion and ether holdings.
 
-The contracts are deployed on [Rootstock Testnet](https://rootstock.io):
+You might want to head over to the [Rootstock Testnet Faucet](https://faucet.rootstock.io) to get some tRBTC for testing. Sepolia ETH might be found at the [Sepolia Faucet](https://cloud.google.com/application/web3/faucet/ethereum/sepolia).
 
 | Chain             | Address                                                                                                                                                     | Description      |
 | ----------------- | ----------------------------------------------------------------------------------------------------------------------------------------------------------- | ---------------- |
