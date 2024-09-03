@@ -230,23 +230,25 @@ function MainContent({ notifications, setNotifications }) {
   }, [wallets]);
 
   useEffect(() => {
-    console.log("watch CreateHeirholdWallet");
-    const unwatch = watchContractEvent(config, {
-      address: heirholdFactoryConfig.address,
-      abi: heirholdFactoryConfig.abi,
-      eventName: "CreateHeirholdWallet",
-      args: { owner: address },
-      onLogs(logs) {
-        console.log("logs", logs);
-        console.log(`new wallet ${logs[0].args.walletAddress}`);
-        readFullContract(logs[0].args.walletAddress, false);
-      },
-    });
-    return () => {
-      console.log("unwatch CreateHeirholdWallet");
-      unwatch();
-    };
-  }, [readFullContract, address]);
+    if (chain) {
+      console.log("watch CreateHeirholdWallet");
+      const unwatch = watchContractEvent(config, {
+        address: heirholdFactoryConfig.address[chain.id],
+        abi: heirholdFactoryConfig.abi,
+        eventName: "CreateHeirholdWallet",
+        args: { owner: address },
+        onLogs(logs) {
+          console.log("logs", logs);
+          console.log(`new wallet ${logs[0].args.walletAddress}`);
+          readFullContract(logs[0].args.walletAddress, false);
+        },
+      });
+      return () => {
+        console.log("unwatch CreateHeirholdWallet");
+        unwatch();
+      };
+    }
+  }, [readFullContract, address, chain]);
 
   useEffect(() => {
     const unwatches = wallets.map((wallet) => {

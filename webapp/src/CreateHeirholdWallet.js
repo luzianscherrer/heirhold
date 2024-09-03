@@ -70,7 +70,7 @@ export const CreateHeirholdWallet = ({ addNotification }) => {
       claimGracePeriod * (unitMultipliers[claimGracePeriodUnit] || 1);
 
     writeContract({
-      address: heirholdFactoryConfig.address,
+      address: heirholdFactoryConfig.address[chain.id],
       abi: heirholdFactoryConfig.abi,
       functionName: "createHeirholdWallet",
       args: [

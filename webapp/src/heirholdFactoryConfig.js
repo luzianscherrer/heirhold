@@ -1,5 +1,9 @@
 export const heirholdFactoryConfig = {
-  address: "0xEf06B4970F659E8B5025Ec588241F703d2467605",
+  address: {
+    31: "0xEf06B4970F659E8B5025Ec588241F703d2467605",
+    31337: "0xEf06B4970F659E8B5025Ec588241F703d2467605",
+    11155111: "0x18fBE49332ADFb8e3986c210d3e0dc3Fc89154b6",
+  },
   abi: [
     {
       anonymous: false,
