@@ -2,7 +2,7 @@
 
 ## TL;DR
 
-Just visit the [online demo](https://luzianscherrer.github.io/heirhold/).
+Just visit the [online demo](https://luzianscherrer.github.io/heirhold/) or [watch the video](https://youtu.be/gcEogddpur4).
 
 ## Introduction
 
@@ -39,23 +39,13 @@ You might want to head over to the [Rootstock Testnet Faucet](https://faucet.roo
 
 The contracts are deployed on [Rootstock Testnet](https://rootstock.io):
 
-| Address                                                                                                                                         | Description               |
-| ----------------------------------------------------------------------------------------------------------------------------------------------- | ------------------------- |
+| Address                                                                                                                                                     | Description               |
+| ----------------------------------------------------------------------------------------------------------------------------------------------------------- | ------------------------- |
 | [<tt>0xEf06B4970F659E8B5025Ec588241F703d2467605</tt>](https://explorer.testnet.rootstock.io/address/0xef06b4970f659e8b5025ec588241f703d2467605?__ctab=Code) | Heirhold factory contract |
-| [<tt>0x81947143dfab529ce9fe55c4297cd7bb90daaa78</tt>](https://explorer.testnet.rootstock.io/address/0x81947143dfab529ce9fe55c4297cd7bb90daaa78) | Heirhold example wallet   |
+| [<tt>0x81947143dfab529ce9fe55c4297cd7bb90daaa78</tt>](https://explorer.testnet.rootstock.io/address/0x81947143dfab529ce9fe55c4297cd7bb90daaa78)             | Heirhold example wallet   |
 
 ## Screenshots
 
 ![Heirhold screenshot 01](/assets/screenshots/screenshot_01.png?raw=true)
 
-![Heirhold screenshot 02](/assets/screenshots/screenshot_02.png?raw=true)
-
-![Heirhold screenshot 03](/assets/screenshots/screenshot_03.png?raw=true)
-
-![Heirhold screenshot 04](/assets/screenshots/screenshot_04.png?raw=true)
-
-![Heirhold screenshot 05](/assets/screenshots/screenshot_05.png?raw=true)
-
-![Heirhold screenshot 06](/assets/screenshots/screenshot_06.png?raw=true)
-
-![Heirhold screenshot 07](/assets/screenshots/screenshot_07.png?raw=true)
+More screenshots can be found in the [assets](/assets/screenshots) folder.
