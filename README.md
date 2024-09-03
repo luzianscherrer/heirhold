@@ -18,7 +18,7 @@ All steps of the process are enforced by a smart contract, ensuring secure and v
 
 ## ETHOnline Hackathon
 
-This is my contribution to the [ETHOnline 2024 Hackathon](https://ethglobal.com/events/ethonline2024) taking place from August 23rd to September 13th, 2024.
+This is my contribution to the [ETHOnline 2024 Hackathon](https://ethglobal.com/events/ethonline2024). I developed it as a pasttime endeavor from initial concept to deployed prototype in 10 days. There's a [project showcase](https://ethglobal.com/showcase/heirhold-0c9ua) over at the ETHGlobal website.
 
 ## Used Technology
 
